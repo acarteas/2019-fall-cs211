@@ -1,0 +1,4 @@
+# Text Editor
+This is where you'll house your text editor code.  See [docs](docs/readme.md) for information on what you're supposed to d.  Put your source files in the src folder.
+
+We'll be using curses to draw our UI.  [PDcurses](https://github.com/wmcbrine/PDCurses/tree/master/docs) seems like the easiest to get going on Windows.  You can find pre-built binaries for Windows and Linux in the /course files/pdcurses folder of this repository.  You can use ncurses on Linux ([Ubuntu guide](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/)).  For MacOS, you can also use ncurses, but you'll need to install [Homebrew](https://formulae.brew.sh/formula/ncurses) first.  
