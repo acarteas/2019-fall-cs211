@@ -1,6 +1,8 @@
 # 2019-fall-cs211
 Course repository for fall 2019 semester of cs 211
 
+about me: I am a senior in computer science at HSU
+
 ## Helpful Links
 * [Markdown guide](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 * [Basic CL git commands](https://github.github.com/training-kit/downloads/github-git-cheat-sheet.pdf)
