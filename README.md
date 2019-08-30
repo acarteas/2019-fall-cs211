@@ -17,3 +17,6 @@ I'm a professor of computer science at HSU.
 ## Tips
 * Change color in VSC -> CTRL+K, CTRL+T
 * Live preview of .MD files in VSC -> CTRL+SHIFT+V
+
+
+dummy commit
