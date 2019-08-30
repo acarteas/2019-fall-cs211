@@ -6,6 +6,7 @@
 #include <ctime>
 
 using namespace std;
+vector<string> readFile(ifstream input_file);
 
 int main(void)
 {
@@ -15,6 +16,12 @@ int main(void)
 	vector<string> last_names{};
 
 	ifstream input_file{ "FirstNames.txt" };
+	first_names = readFile(input_file);
+}
+
+vector<string> readFile(ifstream input_file)
+{
+	vector<string> lines{};
 	if (input_file.is_open() == true)
 	{
 		//.good() is like a better .eof
@@ -24,7 +31,8 @@ int main(void)
 
 			//       FROM        TO
 			getline(input_file, line);
-			first_names.push_back(line);
+			lines.push_back(line);
 		}
 	}
+	return lines;
 }
