@@ -32,8 +32,11 @@ int main(void)
 
 	//MAIN PROGRAM LOGIC GOES HERE
 
+	//add character to screen
+	//mvaddch(10, 10, 'X');
+
 	//add border to screen
-	for(int i = 0; i <num_cols; i++)
+	for (int i = 0; i < num_cols; i++)
 	{
 		//top row
 		mvaddch(0, i, ACS_BLOCK);
