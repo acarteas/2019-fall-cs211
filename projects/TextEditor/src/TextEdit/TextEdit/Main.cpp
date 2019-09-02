@@ -17,9 +17,10 @@ int main(void)
 
 	//resize our window
 	resize_term(5000, 5000);
-	getmaxyx(main_window, num_rows, num_cols);
-	resize_term(num_rows - 1, num_cols - 1);
-	getmaxyx(main_window, num_rows, num_cols);
+	//getmaxyx(main_window, num_rows, num_cols);
+	//resize_term(num_rows - 1, num_cols - 1);
+	//getmaxyx(main_window, num_rows, num_cols);
+	wborder(main_window, 0, 0, 0, 0, 0, 0, 0, 0);
 
 	//turn off keyboard echo
 	noecho();
@@ -33,7 +34,14 @@ int main(void)
 	//MAIN PROGRAM LOGIC GOES HERE
 
 	//add character to screen
-	//mvaddch(10, 10, 'X');
+	//mvaddch(2,2, 'Y');
+	//addstr("This is a test!");
+	//char mesg[] = "Hello there!";
+	mvaddstr(0, 2, "File");
+	mvaddstr(0, 8, "Edit");
+	mvaddstr(0, 14, "Options");
+	mvaddstr(0, 23, "Tools");
+	mvaddstr(0, 30, "About");
 
 	//add border to screen
 	for (int i = 0; i < num_cols; i++)
