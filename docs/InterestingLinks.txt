@@ -1,0 +1,11 @@
+PDcurses commands
+
+https://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/printw.html
+http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html#attribute
+https://en.wikipedia.org/wiki/Curses_%28programming_library%29
+https://stackoverflow.com/questions/9965710/how-to-change-text-and-background-color/9965832#9965832
+https://pdcurses.org/
+
+Interesting designs:
+
+https://www.linuxjournal.com/content/getting-started-ncurses
