@@ -10,7 +10,7 @@ This assignment is worth 50 points.  Your grade will be based on the following:
 * Completing the project / making reasonable progress
 
 ## Due Date
-This assignment is due Midnight, September 10, 2019.  You will turn in your project by checking your code into github.
+This assignment is due Midnight, September 10, 2019.  You will turn in your project by checking your code into github.  Once checked in, [create a milestone 1 release](https://help.github.com/en/articles/creating-releases).
 
 ## Examples
 
