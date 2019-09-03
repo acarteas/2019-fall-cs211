@@ -9,8 +9,8 @@ int find(int value, vector<int> numbers, int start_index, int end_index){
     }
     else if(start_index == end_index)
     {
-        if(value[start_index] == value) {return start_index};
-        else {return -1};
+        if(numbers[start_index] == value) {return start_index;}
+        else {return -1;}
     }
 
     //item found?

@@ -23,7 +23,8 @@ long repeatedString(string s, long n)
         {
             copy(s.begin(), s.end(), back_inserter(poo));
         }
-            poo.resize(n);
+        
+        poo.resize(n);
         long i = 0;
         long j = 0;
 
