@@ -3,6 +3,8 @@
 #include "curses.h"
 #include "curspriv.h"
 #include "panel.h"
+#include <stdlib.h>
+
 
 int main(void)
 {
@@ -33,15 +35,24 @@ int main(void)
 
 	//MAIN PROGRAM LOGIC GOES HERE
 
-	//add character to screen
-	//mvaddch(2,2, 'Y');
-	//addstr("This is a test!");
-	//char mesg[] = "Hello there!";
+	//add file menu header to screen
+	if (has_colors() == FALSE)
+	{
+		endwin();
+		printf("Your terminal does not support color\n");
+		exit(1);
+	}
+	start_color();			/* Start color 			*/
+	init_pair(1, COLOR_WHITE, COLOR_BLUE); //sets the color of text and background
+
+	attron(COLOR_PAIR(1));
 	mvaddstr(0, 2, "File");
 	mvaddstr(0, 8, "Edit");
 	mvaddstr(0, 14, "Options");
 	mvaddstr(0, 23, "Tools");
 	mvaddstr(0, 30, "About");
+	attroff(COLOR_PAIR(1));
+
 
 	//add border to screen
 	for (int i = 0; i < num_cols; i++)
