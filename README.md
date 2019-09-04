@@ -1,6 +1,9 @@
 # 2019-fall-cs211
 Course repository for fall 2019 semester of cs 211
 
+## Want Help?
+* Visit [my discussion forum](https://forum.lumberhacks.org/)!
+
 ## Windows Software
 * (*necessary*) [Git for Windows](https://git-scm.com/download/win)
 * (optional) [TortoiseGit](https://tortoisegit.org/download/)
