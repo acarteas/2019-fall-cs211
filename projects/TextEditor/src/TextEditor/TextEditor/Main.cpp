@@ -23,7 +23,7 @@ int main(void) {
 	wattron(win, A_REVERSE);
 	mvwprintw(win, 0, 0, "	File	Edit	Save												"); // Prints text in the box at desired location
 	mvwprintw(win, 29, 0, "						     Word Count:			  	   		        ");
-	wattron(win, A_REVERSE);
+	wattroff(win, A_REVERSE);
 	wrefresh(win); // Refreshes changes to screen from memory in the window
 	
 
