@@ -9,3 +9,7 @@
       https://www.linuxjournal.com/content/getting-started-ncurses
     
       https://www.linuxjournal.com/content/programming-text-windows-ncurses
+      
+3.   ncurses programing guide 
+
+     http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html
