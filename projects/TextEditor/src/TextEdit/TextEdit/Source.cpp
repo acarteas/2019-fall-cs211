@@ -31,23 +31,26 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < num_cols; i++)
 	{	
 		//top row
-		mvaddch(0, i, ACS_BSBS);
+		mvaddch(1, i, ACS_BSBS);
 		//bottom row
 		mvaddch(num_rows - 2, i, ACS_BSBS);
 	}
 	for (int i = 0; i < num_rows; i++)
 	{
 		//left column
-		mvaddch(i, 0, ACS_BSBS);
+		mvaddch(i, 0, ACS_BSBS); 
 		//right column
 		mvaddch(i,num_cols - 2 , ACS_BSBS);
 	}
-
+	start_color();
+	init_pair(1, COLOR_WHITE, COLOR_RED);
+	attron(COLOR_PAIR(1));
+	printw("");
 	mvaddstr(0, 0, "File");
 	mvaddstr(0, 10, "Edit");
 	mvaddstr(0, 22, "Format");
-	mvaddstr(0, 34, "View");
-	mvaddstr(0, 44, "Help");
+	mvaddstr(0, 35, "View");
+	mvaddstr(0, 45, "Help");
 
 
 	//refresh tells 
