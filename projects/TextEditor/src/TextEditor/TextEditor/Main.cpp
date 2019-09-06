@@ -1,36 +1,81 @@
 
 #define PDC_DLL_BUILD 1
-#include "curses.h""
+#include "curses.h"
 #include <string>
 
 using namespace std;
 
-int main(void) {
+int main(char* argv[], int argc) {
 
 	initscr();
-
-	int height = 30;
-	int width = 120;
-	int start_y = 0;
-	int start_x = 0;
-	//cbreak();
-	noecho();
-
-	WINDOW* win = newwin(height, width, start_y, start_x);
-	refresh();
-	
-	box(win, 0, 0); // Creates box
-	wattron(win, A_REVERSE);
-	mvwprintw(win, 0, 0, "	File	Edit	Save												"); // Prints text in the box at desired location
-	mvwprintw(win, 29, 0, "						     Word Count:			  	   		        ");
-	wattroff(win, A_REVERSE);
-	wrefresh(win); // Refreshes changes to screen from memory in the window
 	
 
+
+	// Main window
+	WINDOW* win = stdscr; 
+	
+	// Terminal dimensions
+	int term_rows = getmaxy(win);
+	int term_cols = getmaxx(win);
+	
+	// Top window dimensions
+	int tHeight = 3;
+	int tWidth = 0;
+	int tStart_y = 0;
+	int tStart_x = 0;
+
+	// Bottom window dimensions
+	int bHeight = 3;
+	int bWidth = 0;
+	int bStart_y = term_rows-3;
+	int bStart_x = 0;
+
+	// Right side window dimensions
+
+	int rsHeight = term_rows -4;
+	int rsWidth = 3;
+	int rsStart_y = 2;
+	int rsStart_x = term_cols-3;
+
+	// Window creations
+	WINDOW* topWin = newwin(tHeight, tWidth, tStart_y, tStart_x); // Top window
+	WINDOW* botWin = newwin(bHeight, bWidth, bStart_y, bStart_x); // Bottom window
+	WINDOW* rsWin = newwin(rsHeight, rsWidth, rsStart_y, rsStart_x); // Right side window
+
+
 	refresh();
+
+	// Creates box for each window
+	box(topWin, 0, 0); 
+	box(botWin, 0, 0);
+	box(rsWin, 0, 0);
+
+	// Printing border text
+	mvwprintw(win, 10, 10,"yesh");
+	mvwprintw(topWin, 1, term_cols / 2 - 14, "File	Edit	Save");
+	mvwprintw(botWin, 1, term_cols / 2 - 5, "Word Count:");
+	
+	// Refreshing windows
+	wrefresh(topWin);
+	wrefresh(botWin);
+	wrefresh(rsWin);
+	
+	
+	
+	//resize_term(term_rows, term_cols);
+
+	//refresh();
+	//wattron(win, A_REVERSE);
+	//mvwprintw(win, 0, 0, "Hewwo")
+	//mvwprintw(win, 0, 0, "	File	Edit	Save												"); // Prints text in the box at desired location
+	//mvwprintw(win, 29, 0, "						     Word Count:			  	   		        ");
+	//wattroff(win, A_REVERSE);
+	//wrefresh(win); // Refreshes changes to screen from memory in the window
+
+	
+	//wrefresh(win);
 
 	getch();
-	//getch();
 
 	endwin();
 
