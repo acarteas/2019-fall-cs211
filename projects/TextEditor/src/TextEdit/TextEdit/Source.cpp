@@ -4,7 +4,7 @@
 #include "panel.h"
 #include "curspriv.h"
 
-int main()
+int main(int argc, char* argv[])
 {
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
@@ -31,17 +31,24 @@ int main()
 	for (int i = 0; i < num_cols; i++)
 	{	
 		//top row
-		mvaddch(0, i, ACS_CKBOARD);
+		mvaddch(0, i, ACS_BSBS);
 		//bottom row
-		mvaddch(num_rows - 2, i, ACS_BULLET);
+		mvaddch(num_rows - 2, i, ACS_BSBS);
 	}
 	for (int i = 0; i < num_rows; i++)
 	{
 		//left column
-		mvaddch(i, 0, ACS_LANTERN);
+		mvaddch(i, 0, ACS_BSBS);
 		//right column
-		mvaddch(i,num_cols - 2 , ACS_PLUS);
+		mvaddch(i,num_cols - 2 , ACS_BSBS);
 	}
+
+	mvaddstr(0, 0, "File");
+	mvaddstr(0, 10, "Edit");
+	mvaddstr(0, 22, "Format");
+	mvaddstr(0, 34, "View");
+	mvaddstr(0, 44, "Help");
+
 
 	//refresh tells 
 	refresh();
