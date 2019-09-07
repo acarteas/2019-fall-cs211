@@ -4,6 +4,8 @@
 #include "curspriv.h"
 #include "panel.h"
 #include <stdlib.h>
+#include <string>
+#include <iostream>
 
 
 int main(void)
@@ -18,7 +20,7 @@ int main(void)
 	main_window = initscr();
 
 	//resize our window
-	resize_term(100, 100);
+	resize_term(5000, 5000);
 	getmaxyx(main_window, num_rows, num_cols);
 	resize_term(num_rows - 1, num_cols - 1);
 	getmaxyx(main_window, num_rows, num_cols);
@@ -29,8 +31,10 @@ int main(void)
 	//create text field
 	WINDOW * sub_window;
 	sub_window = subwin(main_window, num_rows - 2, num_cols - 2, 1, 1);
+	/*getmaxyx(sub_window, num_rows, num_cols);
+	getmaxyx(sub_window, num_rows, num_cols);*/
 	//Use to verify location of sub_window
-	box(sub_window, 047, 055);
+	//box(sub_window, 0, 0);
 
 	//turn off keyboard echo
 	noecho();
@@ -53,62 +57,58 @@ int main(void)
 	start_color(); /* Start color */
 	init_pair(1, COLOR_WHITE, COLOR_BLACK); //sets the color of text and background
 
-	attron(COLOR_PAIR(1));
-	attron(A_UNDERLINE);
+	wattron(main_window, COLOR_PAIR(1));
+	wattron(main_window, A_UNDERLINE);
 	mvaddstr(0, 2, "File");
 	mvaddstr(0, 8, "Edit");
 	mvaddstr(0, 14, "Options");
 	mvaddstr(0, 23, "Tools");
 	mvaddstr(0, 30, "About");
-	attroff(A_UNDERLINE);
-	attroff(COLOR_PAIR(1));
-
-
-	//add border to screen
-	/*for (int i = 0; i < num_cols; i++)
-	{
-	//top row
-	mvaddch(0, i, ACS_BLOCK);
-
-	//bottom row
-	mvaddch(num_rows - 1, i, ACS_BLOCK);
-	}
-
-	for (int i = 0; i < num_cols; i++)
-	{
-	//left column
-	mvaddch(i, 0, ACS_BLOCK);
-
-	//right column
-	mvaddch(i, num_cols - 1, ACS_BLOCK);
-	}*/
+	wattroff(main_window, A_UNDERLINE);
+	wattroff(main_window, COLOR_PAIR(1));
 
 	//refresh tells curses to draw everything
 	refresh();
-	wrefresh(sub_window);
+	touchwin(stdscr);
+	//wrefresh(sub_window);
 
 	//END OF PROGRAM LOGIC GOES HERE
 
 	//Pause for user input
 	//char input = getch();
-	attron(A_STANDOUT);
-	mvwaddstr(sub_window, num_cols / 2, num_rows / 2, "TYPE ASTERICK * TO EXIT");
-	attroff(A_STANDOUT);
-	wmove(sub_window, 4, 1);
+	wattron(sub_window, A_STANDOUT);
+	mvwaddstr(sub_window, 1, 50, "INPUT ASTERICK * TO EXIT");
+	wattroff(sub_window, A_STANDOUT);
+	//wmove(sub_window, 20, 20);
 	char typing = ' ';
+	int col_loc = 3;
+	int row_loc = 0;
 
 	while (typing != '*')
 	{
 		int type_input = getch();
-		mvwaddch(sub_window, num_cols / 2, num_rows / 2, type_input);
+		mvwaddch(sub_window, col_loc, row_loc, type_input);
 		//addch(type_input);
 		typing = type_input;
+		wrefresh(sub_window);
+		if (row_loc > num_rows)
+		{
+			col_loc++;
+			row_loc = 0;
+		}
+		row_loc++;
 	}
 
 	if (typing == '*')
 	{
-		return 0;
+		wclear(sub_window);
+		clear();
+		refresh();
+		wrefresh(sub_window);
+		exit(1);
 	}
+
+	wrefresh(sub_window);
 
 	//end curses mode
 	delwin(sub_window);
