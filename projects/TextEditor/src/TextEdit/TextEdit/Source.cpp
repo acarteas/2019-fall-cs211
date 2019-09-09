@@ -60,7 +60,6 @@ int main(int argc, char* argv[])
 
 	//pause for user input
 	char input = getch();
-
 	//end cursor
 	endwin();
 
