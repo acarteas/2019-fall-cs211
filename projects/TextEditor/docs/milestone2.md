@@ -9,6 +9,7 @@ In our next milestone, you will load a file from the command line and display it
 
 ## Grading
 This assignment is worth 100 points.  Your grade will be based on the following:
+* Usage of at least one STL vector or STL list data structure
 * Regular, appropriately sized github checkins (no single-line checkins, no 1000+ line checkins)
 * Tracking progress on your github project board and github issue tracker
 * Maintaining a [design diary](milestone2_design_diary.md) for this assignment
