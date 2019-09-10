@@ -20,13 +20,13 @@ int main(char* argv[], int argc) {
 	
 	// Top window dimensions
 	int tHeight = 3;
-	int tWidth = 0;
+	int tWidth = term_cols;
 	int tStart_y = 0;
 	int tStart_x = 0;
 
 	// Bottom window dimensions
 	int bHeight = 3;
-	int bWidth = 0;
+	int bWidth = term_cols;
 	int bStart_y = term_rows-3;
 	int bStart_x = 0;
 
