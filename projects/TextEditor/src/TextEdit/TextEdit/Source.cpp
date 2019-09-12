@@ -66,36 +66,46 @@ int main(int argc, char* argv[])
 	//END OF PROGRAM LOGIC GOES HERE
 
 	//pause for user input
-	int input = getch();
+	
 	int y, x;
+	cbreak();
 	getyx(main_window, y, x);
 	keypad(stdscr, TRUE);
 
 	while (1)
 	{
+		int input = getch();
+
 		switch (input)
 		{
-		case 'a':
-			mvwprintw(main_window, y, x, "a");
-			break;
-		case 'A':
-			mvwprintw(main_window, y, x, "A");
-			break;
 		case KEY_UP:
-			wmove(main_window, (y - 1), x);
+			y--;
+			wmove(main_window, y, x); 
+			//wrefresh(main_window);
 			break;
 		case KEY_DOWN:
-			wmove(main_window, (y + 1), x);
+			y++;
+			wmove(main_window, y, x);
+			//wrefresh(main_window);
 			break;
 		case KEY_LEFT:
-			wmove(main_window, y, (x - 1));
+			x--;
+			wmove(main_window, y, x);
+			//wrefresh(main_window);
 			break;
 		case KEY_RIGHT:
-			wmove(main_window, y, (x + 1));
+			x++;
+			wmove(main_window, y, x);
+			//wrefresh(main_window);
+			break;
+		case KEY_ENTER:
+			y++;
+			wmove(main_window, y, x);
 			break;
 		}
-	}
+
 		wrefresh(main_window);
+	}
 
 	//end cursor
 	endwin();
