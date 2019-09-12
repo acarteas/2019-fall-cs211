@@ -4,6 +4,8 @@
 #include "panel.h"
 #include "curspriv.h"
 
+using namespace std;
+
 int main(int argc, char* argv[])
 {
 	WINDOW* main_window = nullptr;
@@ -24,7 +26,8 @@ int main(int argc, char* argv[])
 	keypad(main_window, TRUE);
 
 	//hide the cursor
-	curs_set(FALSE);
+	//curs_set(FALSE);
+
 
 	//Main program logic goes here
 
@@ -33,25 +36,29 @@ int main(int argc, char* argv[])
 		//top row
 		mvaddch(1, i, ACS_BSBS);
 		//bottom row
-		mvaddch(num_rows - 2, i, ACS_BSBS);
+		//mvaddch(num_rows - 2, i, ACS_BSBS);
 	}
 	for (int i = 0; i < num_rows; i++)
 	{
 		//left column
-		mvaddch(i, 0, ACS_BSBS); 
+		mvaddch(i, 0, ACS_VLINE); 
 		//right column
-		mvaddch(i,num_cols - 2 , ACS_BSBS);
+		mvaddch(i,num_cols - 2 , ACS_VLINE);
 	}
 	start_color();
 	init_pair(1, COLOR_WHITE, COLOR_RED);
 	attron(COLOR_PAIR(1));
-	printw("");
+	//printw("");
 	mvaddstr(0, 0, "File");
-	mvaddstr(0, 10, "Edit");
-	mvaddstr(0, 22, "Format");
-	mvaddstr(0, 35, "View");
-	mvaddstr(0, 45, "Help");
+	mvaddstr(0, 5, "Edit");
+	mvaddstr(0, 10, "Format");
+	mvaddstr(0, 17, "View");
+	mvaddstr(0, 22, "Help");
 
+
+	//Moving the cursor under the file bar to get ready for typing
+	move(2, 1);
+	
 
 	//refresh tells 
 	refresh();
@@ -59,7 +66,37 @@ int main(int argc, char* argv[])
 	//END OF PROGRAM LOGIC GOES HERE
 
 	//pause for user input
-	char input = getch();
+	int input = getch();
+	int y, x;
+	getyx(main_window, y, x);
+	keypad(stdscr, TRUE);
+
+	while (1)
+	{
+		switch (input)
+		{
+		case 'a':
+			mvwprintw(main_window, y, x, "a");
+			break;
+		case 'A':
+			mvwprintw(main_window, y, x, "A");
+			break;
+		case KEY_UP:
+			wmove(main_window, (y - 1), x);
+			break;
+		case KEY_DOWN:
+			wmove(main_window, (y + 1), x);
+			break;
+		case KEY_LEFT:
+			wmove(main_window, y, (x - 1));
+			break;
+		case KEY_RIGHT:
+			wmove(main_window, y, (x + 1));
+			break;
+		}
+	}
+		wrefresh(main_window);
+
 	//end cursor
 	endwin();
 
