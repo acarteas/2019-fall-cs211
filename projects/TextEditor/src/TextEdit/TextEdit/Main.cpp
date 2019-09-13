@@ -29,7 +29,7 @@ int main(void)
 	attroff(A_DIM);
 
 	//create text field
-	WINDOW * sub_window;
+	WINDOW* sub_window;
 	sub_window = subwin(main_window, num_rows - 2, num_cols - 2, 1, 1);
 	/*getmaxyx(sub_window, num_rows, num_cols);
 	getmaxyx(sub_window, num_rows, num_cols);*/
@@ -82,16 +82,29 @@ int main(void)
 	//wmove(sub_window, 20, 20);
 	char typing = ' ';
 	int col_loc = 3;
-	int row_loc = 0;
+	int row_loc = 1;
 
+	//while typing any key but asterick, getch() will save value to type_input
+	//then it will be added to subwin as a char based on the current location of row_loc and
+	//col_loc, counter for row will then increment by one unless it's at the end of the 
+	//screen, then col_loc will increment by one and row will revert to zero
 	while (typing != '*')
 	{
 		int type_input = getch();
-		mvwaddch(sub_window, col_loc, row_loc, type_input);
-		//addch(type_input);
-		typing = type_input;
-		wrefresh(sub_window);
-		if (row_loc > num_rows)
+
+		//if enter key is pressed, move to new line
+		if (type_input == 10)
+		{
+			col_loc++;
+			row_loc = 0;
+		}
+		else
+		{
+			mvwaddch(sub_window, col_loc, row_loc, type_input);
+			typing = type_input;
+			wrefresh(sub_window);
+		}
+		if (row_loc >= num_cols - 4)
 		{
 			col_loc++;
 			row_loc = 0;
@@ -99,6 +112,8 @@ int main(void)
 		row_loc++;
 	}
 
+	//user presses asterick to exit, subwindow clears, main window clears
+	//then both windows exit
 	if (typing == '*')
 	{
 		wclear(sub_window);
@@ -110,7 +125,7 @@ int main(void)
 
 	wrefresh(sub_window);
 
-	//end curses mode
+	//end curses mode, deletes both windows
 	delwin(sub_window);
 	endwin();
 }
