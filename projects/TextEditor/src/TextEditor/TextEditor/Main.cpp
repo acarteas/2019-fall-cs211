@@ -1,22 +1,38 @@
 
 #define PDC_DLL_BUILD 1
+#include <fstream>
 #include "curses.h"
 #include <string>
 
 using namespace std;
 
-int main(char* argv[], int argc) {
+int main(int argc, char* argv[]) {
 
+	//ifstream input;
+	//if (input.is_open() == true) {
+
+	
+	//}
+	
+	
 	initscr();
+	noecho();
+	keypad(stdscr, TRUE);
 	
 
-
-	// Main window
+	// Main terminal
 	WINDOW* win = stdscr; 
 	
 	// Terminal dimensions
 	int term_rows = getmaxy(win);
 	int term_cols = getmaxx(win);
+	
+	// Main window dimensions
+	
+	int mHeight = term_rows - 6;
+	int mWidth = term_cols - 3;
+	int mStart_y = 3;
+	int mStart_x = 0;
 	
 	// Top window dimensions
 	int tHeight = 3;
@@ -38,10 +54,11 @@ int main(char* argv[], int argc) {
 	int rsStart_x = term_cols-3;
 
 	// Window creations
+	WINDOW* mWin = newwin(mHeight, mWidth, mStart_y, mStart_x);
 	WINDOW* topWin = newwin(tHeight, tWidth, tStart_y, tStart_x); // Top window
 	WINDOW* botWin = newwin(bHeight, bWidth, bStart_y, bStart_x); // Bottom window
 	WINDOW* rsWin = newwin(rsHeight, rsWidth, rsStart_y, rsStart_x); // Right side window
-
+	
 
 	refresh();
 
@@ -49,16 +66,50 @@ int main(char* argv[], int argc) {
 	box(topWin, 0, 0); 
 	box(botWin, 0, 0);
 	box(rsWin, 0, 0);
+	
 
 	// Printing border text
-	mvwprintw(win, 10, 10,"yesh");
+	//mvwprintw(win, 10, 10,"yesh");
 	mvwprintw(topWin, 1, term_cols / 2 - 14, "File	Edit	Save");
 	mvwprintw(botWin, 1, term_cols / 2 - 5, "Word Count:");
 	
+	
+
 	// Refreshing windows
 	wrefresh(topWin);
 	wrefresh(botWin);
 	wrefresh(rsWin);
+
+	
+	int key_x_pos = 1; // Position of writing
+	int key_y_pos = 1; // Position of writing
+	
+	int ch;
+	ch = getch();
+
+	// Writes user input to screen
+	while (ch != KEY_F(8)) {
+		
+		// Checks if enter has been pressed and starts new line
+		if (ch == 10) {
+			key_y_pos += 1;
+			key_x_pos = 1;
+		
+		}
+
+		// Checks if line has reached edge of terminal and starts a new line
+		if (key_x_pos == term_cols - 3) {
+			key_y_pos += 1;
+			key_x_pos = 1;
+		}
+
+		// Prints typed char and updates for next position
+		mvwprintw(mWin, key_y_pos, key_x_pos, "%c", ch);
+		key_x_pos += 1;
+		wrefresh(mWin);
+		
+		ch = getch();
+	}
 	
 	
 	
@@ -75,7 +126,7 @@ int main(char* argv[], int argc) {
 	
 	//wrefresh(win);
 
-	getch();
+	//int c = getch();
 
 	endwin();
 
