@@ -50,9 +50,10 @@ int main(void)
 		temp_str << "width: " << num_cols << " height: " << num_rows;
 		draw_centered(main_window, num_rows, num_cols, temp_str.str().c_str());
 		refresh();
-		char input = wgetch(main_window);
+		int input = wgetch(main_window);
 
-		//Curses documentation says to use KEY_RESIZE, but I couldn't get it to work.  Have to poll instead.
+		//Curses documentation says to use KEY_RESIZE, but you can also use
+		//is_termresized.  In real life, use either/or but not both.
 		if (is_termresized() == true)
 		{
 			resize_term(0, 0);
@@ -64,6 +65,7 @@ int main(void)
 			keep_going = false;
 		case KEY_RESIZE:
 			resize_term(0, 0);
+			getmaxyx(main_window, num_rows, num_cols);
 		}
 	}
 	//end curses mode
