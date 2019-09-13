@@ -3,13 +3,19 @@
 #include "curses.h"
 #include "curspriv.h"
 #include "panel.h"
-#include <stdlib.h>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <iostream>
+#include <fstream>
 
+using namespace std;
 
-int main(void)
+int main(int argc, char** argv)
 {
+	ifstream src("test.txt");
+	//FILE* src = fopen("test.txt", "r");
+	//errno_t src;
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
 	int num_rows = 0;
@@ -29,10 +35,10 @@ int main(void)
 	attroff(A_DIM);
 
 	//create text field
-	WINDOW* sub_window;
+	WINDOW * sub_window;
 	sub_window = subwin(main_window, num_rows - 2, num_cols - 2, 1, 1);
-	/*getmaxyx(sub_window, num_rows, num_cols);
-	getmaxyx(sub_window, num_rows, num_cols);*/
+
+
 	//Use to verify location of sub_window
 	//box(sub_window, 0, 0);
 
@@ -91,6 +97,21 @@ int main(void)
 	while (typing != '*')
 	{
 		int type_input = getch();
+
+		if (type_input == 27)
+		{
+			//char file[500];
+			while (!src.eof())
+			{
+				string line;
+				getline(src, line);
+				mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
+				row_loc++;
+				wrefresh(sub_window);
+			}
+
+			src.close();
+		}
 
 		//if enter key is pressed, move to new line
 		if (type_input == 10)
