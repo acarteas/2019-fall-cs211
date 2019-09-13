@@ -4,21 +4,38 @@
 #include "panel.h"
 #include "curspriv.h"
 #include <string>
+#include <cstring>
 
 using namespace std;
 
+int num_cols = 0;
+int num_rows = 0;
+int y, x;
+WINDOW* main_window = nullptr;
+
+void backspace()
+{
+	noecho();
+	nocbreak();
+	getyx(main_window, y, x);
+	move(y, x - 1);
+	delch();
+	cbreak();
+	refresh();
+}
+
 int main(int argc, char* argv[])
 {
-	WINDOW* main_window = nullptr;
-	int num_cols = 0;
-	int num_rows = 0;
 
 	//Initialize our window
 	main_window = initscr();
 
 	//resize our window
+	resize_term(5000, 5000);
 	getmaxyx(main_window, num_rows, num_cols);
 	resize_term(num_rows - 1, num_cols - 1);
+	getmaxyx(main_window, num_rows, num_cols);
+	
 
 	//Turn keyboard echo
 	noecho();
@@ -43,9 +60,9 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < num_rows; i++)
 	{
 		//left column
-		mvaddch(i, 0, ACS_VLINE); 
+		mvaddch(i, 1, ACS_VLINE); 
 		//right column
-		mvaddch(i,num_cols - 2 , ACS_VLINE);
+//mvaddch(i,num_cols - 2 , ACS_VLINE);
 	}
 
 	//Setting up the boder names and giving it some color
@@ -53,15 +70,17 @@ int main(int argc, char* argv[])
 	init_pair(1, COLOR_WHITE, COLOR_RED);
 	attron(COLOR_PAIR(1));
 	//printw("");
+
 	mvaddstr(0, 0, "File");
 	mvaddstr(0, 5, "Edit");
 	mvaddstr(0, 10, "Format");
 	mvaddstr(0, 17, "View");
 	mvaddstr(0, 22, "Help");
+	attroff(COLOR_PAIR(1));
 
 
 	//Moving the cursor under the file bar to get ready for typing
-	move(2, 1);
+	move(2, 2);
 	
 
 	//refresh tells 
@@ -71,48 +90,69 @@ int main(int argc, char* argv[])
 
 	//pause for user input
 	
-	int y, x;
 	char space = ' ';
 	cbreak();
 	getyx(main_window, y, x);
 
+
+
 	//Setting up the special keys.
 	keypad(stdscr, TRUE);
+	mousemask(ALL_MOUSE_EVENTS, NULL);
+	scrollok(main_window, TRUE);
 	while (1)
 	{
 		int input = getch();
 
 		switch (input)
 		{
+		case KEY_RESIZE:
+			resize_term(0, 0);
+			break;
 		case KEY_UP:
 			y--;
+			if (y <= 0)
+				y = -2;
 			wmove(main_window, y, x); 
 			break;
 		case KEY_DOWN:
 			y++;
+			
 			wmove(main_window, y, x);
 			break;
 		case KEY_LEFT:
 			x--;
+			if (x == 0)
+				x = 1;
 			wmove(main_window, y, x);
 			break;
 		case KEY_RIGHT:
 			x++;
+			if (x == num_cols)
+				x = num_cols - 3;
 			wmove(main_window, y, x);
 			break;
 		//The Enter key is not working at the moment 
 		case KEY_ENTER:
+			mvaddch(y, x, '\n');
 			y++;
 			wmove(main_window, y, x);
 			break;
+
 		//The backspace key is not working at the moment
 		case KEY_BACKSPACE:
-			x--;
-			wmove(main_window, y, x);
+			x -= 1;
+			delch();
+		move( y, x);
 			break;
 
-		case ' ':
+		case KEY_STAB:
 			mvaddch(y, x, ' ');
+			x += 5;
+			wmove(main_window, y, x);
+
+		case ' ':
+			mvaddch(y, x, space);
 			x++;
 			wmove(main_window, y, x);
 			break;
@@ -379,7 +419,15 @@ int main(int argc, char* argv[])
 			wmove(main_window, y, x);
 			break;
 		}
+
+		/*int c = wgetch(main_window);
+		switch(c)
+		{
+
+		}*/
 		wrefresh(main_window);
+		//if (input == 10)
+			//break;
 	}
 
 	//int input = getstr('');
