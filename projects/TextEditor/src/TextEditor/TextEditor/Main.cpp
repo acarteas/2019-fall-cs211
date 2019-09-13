@@ -3,37 +3,34 @@
 #include <fstream>
 #include "curses.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	//ifstream input;
-	//if (input.is_open() == true) {
+	
 
-	
-	//}
-	
-	
+
 	initscr();
 	noecho();
 	keypad(stdscr, TRUE);
-	
+
 
 	// Main terminal
-	WINDOW* win = stdscr; 
-	
+	WINDOW* win = stdscr;
+
 	// Terminal dimensions
 	int term_rows = getmaxy(win);
 	int term_cols = getmaxx(win);
-	
+
 	// Main window dimensions
-	
+
 	int mHeight = term_rows - 6;
 	int mWidth = term_cols - 3;
 	int mStart_y = 3;
 	int mStart_x = 0;
-	
+
 	// Top window dimensions
 	int tHeight = 3;
 	int tWidth = term_cols;
@@ -43,49 +40,76 @@ int main(int argc, char* argv[]) {
 	// Bottom window dimensions
 	int bHeight = 3;
 	int bWidth = term_cols;
-	int bStart_y = term_rows-3;
+	int bStart_y = term_rows - 3;
 	int bStart_x = 0;
 
 	// Right side window dimensions
 
-	int rsHeight = term_rows -4;
+	int rsHeight = term_rows - 4;
 	int rsWidth = 3;
 	int rsStart_y = 2;
-	int rsStart_x = term_cols-3;
+	int rsStart_x = term_cols - 3;
 
 	// Window creations
 	WINDOW* mWin = newwin(mHeight, mWidth, mStart_y, mStart_x);
 	WINDOW* topWin = newwin(tHeight, tWidth, tStart_y, tStart_x); // Top window
 	WINDOW* botWin = newwin(bHeight, bWidth, bStart_y, bStart_x); // Bottom window
 	WINDOW* rsWin = newwin(rsHeight, rsWidth, rsStart_y, rsStart_x); // Right side window
-	
+
 
 	refresh();
 
 	// Creates box for each window
-	box(topWin, 0, 0); 
+	box(topWin, 0, 0);
 	box(botWin, 0, 0);
 	box(rsWin, 0, 0);
-	
+
 
 	// Printing border text
 	//mvwprintw(win, 10, 10,"yesh");
-	mvwprintw(topWin, 1, term_cols / 2 - 14, "File	Edit	Save");
+	mvwprintw(topWin, 1, term_cols / 2 - 14, "|File|	|Edit|	|Save|");
 	mvwprintw(botWin, 1, term_cols / 2 - 5, "Word Count:");
-	
-	
+	mvwprintw(botWin, 1, term_cols - 17, " |'F8' to quit|");
+
+
 
 	// Refreshing windows
 	wrefresh(topWin);
 	wrefresh(botWin);
 	wrefresh(rsWin);
 
+
+	/*ifstream input;
+	input.open("beep.txt");
+	if (input.is_open() == true) {
+		vector<string> file{};
+		while (input.good() == true) {
+			string line;
+			file.push_back(line);
+
+		}
+	}*/
+	//mvwaddstr(mWin, 10, 10, line.c_str());
+
+	vector<string> str{ "1", "2", "3" };
+	int x_pos = 10;
+	int y_pos = 10;
+	for (int i = 0; i < str.size(); i++) {
+		
+		mvwaddstr(mWin, y_pos, x_pos, str[i].c_str());
+		
+		y_pos += 1;
+
+		wrefresh(mWin);
+	}
+	
+
 	
 	int key_x_pos = 1; // Position of writing
 	int key_y_pos = 1; // Position of writing
 	
 	int ch;
-	ch = getch();
+	ch = wgetch(mWin);
 
 	// Writes user input to screen
 	while (ch != KEY_F(8)) {
@@ -93,7 +117,7 @@ int main(int argc, char* argv[]) {
 		// Checks if enter has been pressed and starts new line
 		if (ch == 10) {
 			key_y_pos += 1;
-			key_x_pos = 1;
+			key_x_pos = 0;
 		
 		}
 
@@ -108,25 +132,9 @@ int main(int argc, char* argv[]) {
 		key_x_pos += 1;
 		wrefresh(mWin);
 		
-		ch = getch();
+		ch = wgetch(mWin);
 	}
 	
-	
-	
-	//resize_term(term_rows, term_cols);
-
-	//refresh();
-	//wattron(win, A_REVERSE);
-	//mvwprintw(win, 0, 0, "Hewwo")
-	//mvwprintw(win, 0, 0, "	File	Edit	Save												"); // Prints text in the box at desired location
-	//mvwprintw(win, 29, 0, "						     Word Count:			  	   		        ");
-	//wattroff(win, A_REVERSE);
-	//wrefresh(win); // Refreshes changes to screen from memory in the window
-
-	
-	//wrefresh(win);
-
-	//int c = getch();
 
 	endwin();
 
