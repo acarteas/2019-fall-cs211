@@ -13,3 +13,5 @@
 3.   ncurses programing guide 
 
      http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html
+     
+     https://www.tldp.org/HOWTO/html_single/NCURSES-Programming-HOWTO/
