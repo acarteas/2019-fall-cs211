@@ -1,2 +1,8 @@
 I have been spending the past few days just looking more into the curses library especifically learning how to scroll
 for my text editor. This link has been very helpful for me: http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/mouse.html
+
+September 16,2019:
+      I did more research on the special keys I was having trouble with (backspace, enter, and tab) and I finally got the enter and tab keys
+      to work and somewhat got the backspace to work.
+      I am now having trouble with word wrap and my letters keep going off the screen.
+      I will be spending the rest of the day researching word wrap and will add more info if I could find a good like to word wrap today.
