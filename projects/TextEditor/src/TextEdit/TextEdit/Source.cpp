@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	main_window = initscr();
 
 	//resize our window
-	resize_term(5000, 5000);
+	resize_term(2500, 2500);
 	getmaxyx(main_window, num_rows, num_cols);
 	resize_term(num_rows - 1, num_cols - 1);
 	getmaxyx(main_window, num_rows, num_cols);
@@ -102,10 +102,14 @@ int main(int argc, char* argv[])
 	scrollok(main_window, TRUE);
 	while (1)
 	{
+
 		int input = getch();
 
 		switch (input)
 		{
+		case KEY_MOUSE:
+			scrollok(main_window, TRUE);
+         break;
 		case KEY_RESIZE:
 			resize_term(0, 0);
 			break;
@@ -133,22 +137,23 @@ int main(int argc, char* argv[])
 			wmove(main_window, y, x);
 			break;
 		//The Enter key is not working at the moment 
-		case KEY_ENTER:
-			mvaddch(y, x, '\n');
+		case KEY_ENTER: case '\r': case '\n':
 			y++;
+			x = 2;
 			wmove(main_window, y, x);
 			break;
 
 		//The backspace key is not working at the moment
-		case KEY_BACKSPACE:
+		case KEY_BACKSPACE: case KEY_DC: case 127: case '\b':
 			x -= 1;
+			if (x <= 2)
+				x = 2;
 			delch();
-		move( y, x);
+			wmove( main_window, y, x);
 			break;
 
-		case KEY_STAB:
-			mvaddch(y, x, ' ');
-			x += 5;
+		case KEY_STAB: case '\t':
+			x += 8;
 			wmove(main_window, y, x);
 
 		case ' ':
@@ -415,6 +420,26 @@ int main(int argc, char* argv[])
 			break;
 		case 'Z':
 			mvaddch(y, x, 'Z');
+			x++;
+			wmove(main_window, y, x);
+			break;
+		case '.':
+			mvaddch(y, x, '.');
+			x++;
+			wmove(main_window, y, x);
+			break;
+		case ',':
+			mvaddch(y, x, ',');
+			x++;
+			wmove(main_window, y, x);
+			break;
+		case ';':
+			mvaddch(y, x, ';');
+			x++;
+			wmove(main_window, y, x);
+			break;
+		case '"':
+			mvaddch(y, x, '"');
 			x++;
 			wmove(main_window, y, x);
 			break;
