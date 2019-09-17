@@ -1,5 +1,6 @@
 I have been spending the past few days just looking more into the curses library especifically learning how to scroll
 for my text editor. This link has been very helpful for me: http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/mouse.html
+https://invisible-island.net/ncurses/man/curs_mouse.3x.html
 
 September 16,2019:
       I did more research on the special keys I was having trouble with (backspace, enter, and tab) and I finally got the enter and tab keys
