@@ -26,3 +26,14 @@ Interesting designs:
 
 
 1) https://www.linuxjournal.com/content/getting-started-ncurses
+
+
+Reading files into vectors (helpful examples):
+
+1) http://www.decompile.com/cpp/faq/file_to_vector.htm
+
+2) https://stackoverflow.com/questions/19602407/read-integers-from-a-file-into-a-vector-in-c/19602428
+
+3) https://www.quora.com/How-do-I-read-data-from-a-file-using-a-vector-in-C
+
+4) https://stackoverflow.com/questions/15138785/how-to-read-a-file-into-vector-in-c

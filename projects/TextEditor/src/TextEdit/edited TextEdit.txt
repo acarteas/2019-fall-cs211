@@ -161,3 +161,5 @@ int main(int argc, char** argv)
 	delwin(sub_window);
 	endwin();
 }
+
+//Need to figure out how to read contents of vector to screen, doesn't recognize src.begin() or src.end()
