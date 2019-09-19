@@ -8,12 +8,14 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <vector>
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
+	ifstream src("test.txt");
+	//FILE* src = fopen("test.txt", "r");
+	//errno_t src;
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
 	int num_rows = 0;
@@ -98,25 +100,12 @@ int main(int argc, char** argv)
 
 		if (type_input == 27)
 		{
-			vector<string> myFile;
-			ifstream src;
-			src.open("test.txt");
-			string line;
 			//char file[500];
-			//FILE* src = fopen("test.txt", "r");
-			//errno_t src;
-			while (!src.eof()) 
+			while (!src.eof())
 			{
-				myFile.push_back(line);
-				//getline(src, line);
-				//mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
-				//row_loc++;
-				//wrefresh(sub_window);
-			}
-
-			for (int i = src.begin(); i != src.end(); ++i)
-			{
-				mvwaddstr(sub_window, row_loc, col_loc, src[i].c_str());
+				string line;
+				getline(src, line);
+				mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
 				row_loc++;
 				wrefresh(sub_window);
 			}
@@ -161,5 +150,3 @@ int main(int argc, char** argv)
 	delwin(sub_window);
 	endwin();
 }
-
-//Need to figure out how to read contents of vector to screen, doesn't recognize src.begin() or src.end()

@@ -8,14 +8,12 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
-	ifstream src("test.txt");
-	//FILE* src = fopen("test.txt", "r");
-	//errno_t src;
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
 	int num_rows = 0;
@@ -35,7 +33,7 @@ int main(int argc, char** argv)
 	attroff(A_DIM);
 
 	//create text field
-	WINDOW * sub_window;
+	WINDOW* sub_window;
 	sub_window = subwin(main_window, num_rows - 2, num_cols - 2, 1, 1);
 
 
@@ -100,12 +98,22 @@ int main(int argc, char** argv)
 
 		if (type_input == 27)
 		{
-			//char file[500];
+			vector<string> myFile;
+			ifstream src;
+			src.open("test.txt");
+			string line;
+
 			while (!src.eof())
 			{
-				string line;
-				getline(src, line);
-				mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
+				myFile.push_back(line);
+			}
+
+			//string newline;
+
+			for (int i = 0; i <= (int)myFile.size(); i++)
+			{
+				myFile[i] = line;
+				mvwaddstr(sub_window, row_loc, col_loc, line.c_str);
 				row_loc++;
 				wrefresh(sub_window);
 			}
