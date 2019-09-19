@@ -105,20 +105,24 @@ int main(int argc, char** argv)
 
 			while (!src.eof())
 			{
+				getline(src, line);
 				myFile.push_back(line);
 			}
 
+			src.close();
+
 			//string newline;
 
-			for (int i = 0; i <= (int)myFile.size(); i++)
+			//Note to self: possibly use copy constructor instead of for loop?
+
+			for (int i = 0; i < myFile.size(); i++)
 			{
 				myFile[i] = line;
-				mvwaddstr(sub_window, row_loc, col_loc, line.c_str);
+				row_loc = sizeof(line) + row_loc;
+				mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
 				row_loc++;
 				wrefresh(sub_window);
 			}
-
-			src.close();
 		}
 
 		//if enter key is pressed, move to new line

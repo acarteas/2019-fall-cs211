@@ -37,3 +37,7 @@ Reading files into vectors (helpful examples):
 3) https://www.quora.com/How-do-I-read-data-from-a-file-using-a-vector-in-C
 
 4) https://stackoverflow.com/questions/15138785/how-to-read-a-file-into-vector-in-c
+
+5) https://stackoverflow.com/questions/21018661/simple-text-editing-program-in-c  (has awesome pseudocode for using a vector - though this is for a menu system, very helpful for visualizing code)
+
+6) https://stackoverflow.com/questions/9751932/displaying-contents-of-a-vector-container-in-c (another possibility for using vector for files - make a copy)

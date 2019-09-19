@@ -150,3 +150,5 @@ int main(int argc, char** argv)
 	delwin(sub_window);
 	endwin();
 }
+
+//THIS CODE WORKS FOR OPENING FILES! Does have some problems reading special characters like dashes, but KEEP THIS FOR REFERENCE
