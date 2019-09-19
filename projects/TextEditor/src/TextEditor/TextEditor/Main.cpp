@@ -78,25 +78,38 @@ int main(int argc, char* argv[]) {
 	wrefresh(botWin);
 	wrefresh(rsWin);
 
+	
+	
+	// Loads specified file from command line in to a vector
+	ifstream input (argv[1]);
+	vector<string> file{};
 
-	/*ifstream input;
-	input.open("beep.txt");
+	// Checks if file name is valid
+	if (input.is_open() == false) {
+		mvwprintw(mWin, 10, 10, "Invalid file name, could not open");
+		wrefresh(mWin);
+	}
+
+	// Reads file to a vector
 	if (input.is_open() == true) {
-		vector<string> file{};
+	
+		/*mvwprintw(mWin, 10, 10, "input is open");
+		wrefresh(mWin);*/
+		
 		while (input.good() == true) {
 			string line;
+			getline(input, line);
 			file.push_back(line);
 
 		}
-	}*/
-	//mvwaddstr(mWin, 10, 10, line.c_str());
+	}
 
-	vector<string> str{ "1", "2", "3" };
-	int x_pos = 10;
-	int y_pos = 10;
-	for (int i = 0; i < str.size(); i++) {
+	// Displays  contents of vector in main window
+	int x_pos = 0;
+	int y_pos = 0;
+	for (int i = 0; i < term_rows - 8 ; i++) {
 		
-		mvwaddstr(mWin, y_pos, x_pos, str[i].c_str());
+		mvwaddstr(mWin, y_pos, x_pos, file[i].c_str());
 		
 		y_pos += 1;
 
