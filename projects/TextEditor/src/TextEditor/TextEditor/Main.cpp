@@ -8,8 +8,8 @@
 using namespace std;
 
 void moveCursor(WINDOW* win, int y, int x); // Moves cursor based on arrow key input
-void drawText(WINDOW* win, vector<string> &vect, int startLine); // Displays  contents of vector in main window
-void get_curs_pos(WINDOW* get, WINDOW* write);
+void drawText(WINDOW* win, vector<char> &vect, const int term_rows, const int term_cols, int start); // Displays  contents of vector in main window and get length
+void get_curs_pos(WINDOW* get, WINDOW* write); // Writes cursor's y and x position
 
 int main(int argc, char* argv[]) {
 
@@ -27,8 +27,8 @@ int main(int argc, char* argv[]) {
 	WINDOW* win = stdscr;
 
 	// Terminal dimensions
-	int term_rows = getmaxy(win);
-	int term_cols = getmaxx(win);
+	const int term_rows = getmaxy(win);
+	const int term_cols = getmaxx(win);
 
 	// Main window dimensions
 
@@ -94,7 +94,6 @@ int main(int argc, char* argv[]) {
 	// Loads specified file from command line in to a vector
 	ifstream input (argv[1]);
 	input >> noskipws;
-	vector<string> file{};
 	vector<char> fyle{};
 
 	// Checks if file name is valid
@@ -107,10 +106,6 @@ int main(int argc, char* argv[]) {
 	if (input.is_open() == true) {
 		
 		while (input.good() == true) {
-			/*string line;
-			getline(input, line);
-			file.push_back(line);*/
-
 			char letter;
 			input >> letter;
 			fyle.push_back(letter);
@@ -118,39 +113,27 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	int x = 0;
-	int y = 0;
-	int file_pos = 0;
-	int file_end = (term_cols - 4) * (term_rows - 6) + file_pos - 2;
-	for (file_pos; file_pos < file_end; file_pos++) {
-		
-		if (x == term_cols - 4) {
-			y++;
-			x = 0;
-		}
-		mvwaddch(mWin, y, x, fyle[file_pos]);
-		x++;
 
 
-	}
 
 
-	mvwprintw(botWin, 1, 1, "File length:");
-	mvwprintw(botWin, 1, 13, "%d", file_end);
-	//get_curs_pos(mWin, botWin);
-	
+	//int file_length;
 
+	/*mvwprintw(botWin, 1, 1, "File length:");
+	mvwprintw(botWin, 1, 13, "%d", file_length);
+	wrefresh(botWin);
+*/
 
 	int start = 0;
-	//drawText(mWin, file, start);
 
-
-	
+	get_curs_pos(mWin, botWin);
+	drawText(mWin, fyle, term_rows, term_cols, start);
 
 	// Cursor position and key grab
 	int curs_x_pos = 0;
 	int curs_y_pos = 0;
 	int key;
+	
 	// Movement of cursor with arrow keys
 	while (1) {
 		key = wgetch(mWin);
@@ -163,15 +146,17 @@ int main(int argc, char* argv[]) {
 
 				get_curs_pos(mWin, botWin);
 			}
+			if (curs_y_pos == 0) {
+				start -= term_cols -3;
+				drawText(mWin, fyle, term_rows, term_cols, start);
+			}
 			break;
 		case KEY_DOWN:
 			if (curs_y_pos == term_rows - 7) {
-				start++;
-				drawText(mWin, file, start);
-				wrefresh(mWin);
-
-				get_curs_pos(mWin, botWin);
+				start += 115;
+				drawText(mWin, fyle, term_rows, term_cols, start);
 			}
+
 			if (curs_y_pos < term_rows - 7) {
 
 				curs_y_pos++;
@@ -253,30 +238,41 @@ void moveCursor(WINDOW* win, int y, int x) {
 	wmove(win, y, x);
 }
 
-void drawText(WINDOW* win, vector<string> &vect, int startLine) {
-	int x_pos = 0;
-	int y_pos = 0;
-	int fileLine = startLine;
-	int endLine = 22 + fileLine;
-	for (fileLine; fileLine < 3; fileLine++) {
-		if (fileLine < vect.size()) {
-			mvwaddstr(win, y_pos, x_pos, vect[fileLine].c_str());
+void drawText(WINDOW* win, vector<char> &vect, const int term_rows, const int term_cols, int start) {
+	int x = 0;
+	int y = 0;
+	int num_rows = 0;
+	int file_pos = start;
+	int file_end = (term_cols - 4) * (term_rows - 6) + file_pos - 2;
+	for (file_pos; file_pos < file_end; file_pos++) {
+		
+		if (x == term_cols - 4) {
+			y++;
+			x = 0;
+		}
 
-			
+		if (file_pos < vect.size() && file_pos >= 0) {
+			mvwaddch(win, y, x, vect[file_pos]);
+			x++;
 		}
 
 	}
 	wrefresh(win);
-
 }
 
 void get_curs_pos(WINDOW* get, WINDOW* write) {
+	
 	int cursor_x_pos;
 	int cursor_y_pos;
 	getyx(get, cursor_y_pos, cursor_x_pos);
 	mvwprintw(write, 1, 20, "%d", cursor_y_pos);
 	mvwprintw(write, 1, 24, "%d", cursor_x_pos);
 	wrefresh(write);
+
+	mvwaddch(write, 1, 21, 32);
+	mvwaddch(write, 1, 22, 32);
+	mvwaddch(write, 1, 25, 32);
+	mvwaddch(write, 1, 26, 32);
 
 }
 
