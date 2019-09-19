@@ -7,8 +7,9 @@
 
 using namespace std;
 
-void moveCursor(WINDOW* win, int y, int x);
-void drawText(WINDOW*, vector<string> &vect);
+void moveCursor(WINDOW* win, int y, int x); // Moves cursor based on arrow key input
+void drawText(WINDOW* win, vector<string> &vect, int startLine); // Displays  contents of vector in main window
+void get_curs_pos(WINDOW* get, WINDOW* write);
 
 int main(int argc, char* argv[]) {
 
@@ -61,7 +62,7 @@ int main(int argc, char* argv[]) {
 	WINDOW* botWin = newwin(bHeight, bWidth, bStart_y, bStart_x); // Bottom window
 	WINDOW* rsWin = newwin(rsHeight, rsWidth, rsStart_y, rsStart_x); // Right side window
 
-	// Arrow key usage
+	// Arrow key usage 
 	keypad(mWin, TRUE);
 	keypad(topWin, TRUE);
 	keypad(botWin, TRUE);
@@ -92,7 +93,9 @@ int main(int argc, char* argv[]) {
 	
 	// Loads specified file from command line in to a vector
 	ifstream input (argv[1]);
+	input >> noskipws;
 	vector<string> file{};
+	vector<char> fyle{};
 
 	// Checks if file name is valid
 	if (input.is_open() == false) {
@@ -102,40 +105,52 @@ int main(int argc, char* argv[]) {
 
 	// Reads file to a vector
 	if (input.is_open() == true) {
-	
-		/*mvwprintw(mWin, 10, 10, "input is open");
-		wrefresh(mWin);*/
 		
 		while (input.good() == true) {
-			string line;
+			/*string line;
 			getline(input, line);
-			file.push_back(line);
+			file.push_back(line);*/
+
+			char letter;
+			input >> letter;
+			fyle.push_back(letter);
 
 		}
 	}
 
-	// Displays  contents of vector in main window
-	int x_pos = 0;
-	int y_pos = 0;
-	int fileLine = 0;
-	int endLine = 22 + fileLine;
-	for (fileLine; fileLine < endLine; fileLine++) {
-		if (fileLine < file.size()) {
-			mvwaddstr(mWin, y_pos, x_pos, file[fileLine].c_str());
-
-			y_pos += 1;
-		}
+	int x = 0;
+	int y = 0;
+	int file_pos = 0;
+	int file_end = (term_cols - 4) * (term_rows - 6) + file_pos - 2;
+	for (file_pos; file_pos < file_end; file_pos++) {
 		
-	}
-	wrefresh(mWin);
+		if (x == term_cols - 4) {
+			y++;
+			x = 0;
+		}
+		mvwaddch(mWin, y, x, fyle[file_pos]);
+		x++;
 
+
+	}
+
+
+	mvwprintw(botWin, 1, 1, "File length:");
+	mvwprintw(botWin, 1, 13, "%d", file_end);
+	//get_curs_pos(mWin, botWin);
 	
 
 
+	int start = 0;
+	//drawText(mWin, file, start);
+
+
+	
+
+	// Cursor position and key grab
 	int curs_x_pos = 0;
 	int curs_y_pos = 0;
 	int key;
-	
 	// Movement of cursor with arrow keys
 	while (1) {
 		key = wgetch(mWin);
@@ -145,20 +160,35 @@ int main(int argc, char* argv[]) {
 				curs_y_pos--;
 				moveCursor(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
+
+				get_curs_pos(mWin, botWin);
 			}
 			break;
 		case KEY_DOWN:
+			if (curs_y_pos == term_rows - 7) {
+				start++;
+				drawText(mWin, file, start);
+				wrefresh(mWin);
+
+				get_curs_pos(mWin, botWin);
+			}
 			if (curs_y_pos < term_rows - 7) {
+
 				curs_y_pos++;
 				moveCursor(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
+				
+				get_curs_pos(mWin, botWin);
 			}
+			
 			break;
 		case KEY_RIGHT:
 			if (curs_x_pos < term_cols - 4) {
 				curs_x_pos++;
 				moveCursor(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
+
+				get_curs_pos(mWin, botWin);
 			}
 			break;
 		case KEY_LEFT:
@@ -166,6 +196,8 @@ int main(int argc, char* argv[]) {
 				curs_x_pos--;
 				moveCursor(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
+
+				get_curs_pos(mWin, botWin);
 			}
 			break;
 		
@@ -176,38 +208,39 @@ int main(int argc, char* argv[]) {
 	}
 	
 
-//	
-//	int key_x_pos = 0; // Position of writing
-//	int key_y_pos = 0; // Position of writing
-//	
-//	int ch;
-//	ch = wgetch(mWin);
-//
-//
-//
-//	// Writes user input to screen
-//	while (ch != KEY_F(8)) {
-//		
-//		// Checks if enter has been pressed and starts new line
-//		if (ch == 10) {
-//			key_y_pos += 1;
-//			key_x_pos = 0;
-//		
-//		}
-//
-//		// Checks if line has reached edge of terminal and starts a new line
-//		if (key_x_pos == term_cols - 3) {
-//			key_y_pos += 1;
-//			key_x_pos = 1;
-//		}
-//
-//		// Prints typed char and updates for next position
-//		mvwprintw(mWin, key_y_pos, key_x_pos, "%c", ch);
-//		key_x_pos += 1;
-//		wrefresh(mWin);
-//		
-//		ch = wgetch(mWin);
-//	}
+	//
+	//int key_x_pos = 0; // Position of writing
+	//int key_y_pos = 0; // Position of writing
+	//
+	//int ch;
+	//ch = wgetch(mWin);
+
+
+
+	//// Writes user input to screen
+	//while (ch != KEY_F(8)) {
+	//	
+	//	// Checks if enter has been pressed and starts new line
+	//	if (ch == 10) {
+	//		key_y_pos += 1;
+	//		key_x_pos = 0;
+	//	
+	//	}
+
+	//	// Checks if line has reached edge of terminal and starts a new line
+	//	if (key_x_pos == term_cols - 3) {
+	//		key_y_pos += 1;
+	//		key_x_pos = 1;
+	//	}
+
+	//	// Prints typed char and updates for next position
+	//	//mvwprintw(mWin, key_y_pos, key_x_pos, "%c", ch);
+	//	waddch(mWin, ch);
+	//	key_x_pos += 1;
+	//	wrefresh(mWin);
+	//	
+	//	ch = wgetch(mWin);
+	//}
 	
 
 	endwin();
@@ -220,7 +253,30 @@ void moveCursor(WINDOW* win, int y, int x) {
 	wmove(win, y, x);
 }
 
-void drawText(WINDOW*, vector<string> &vect) {
+void drawText(WINDOW* win, vector<string> &vect, int startLine) {
+	int x_pos = 0;
+	int y_pos = 0;
+	int fileLine = startLine;
+	int endLine = 22 + fileLine;
+	for (fileLine; fileLine < 3; fileLine++) {
+		if (fileLine < vect.size()) {
+			mvwaddstr(win, y_pos, x_pos, vect[fileLine].c_str());
 
+			
+		}
+
+	}
+	wrefresh(win);
 
 }
+
+void get_curs_pos(WINDOW* get, WINDOW* write) {
+	int cursor_x_pos;
+	int cursor_y_pos;
+	getyx(get, cursor_y_pos, cursor_x_pos);
+	mvwprintw(write, 1, 20, "%d", cursor_y_pos);
+	mvwprintw(write, 1, 24, "%d", cursor_x_pos);
+	wrefresh(write);
+
+}
+
