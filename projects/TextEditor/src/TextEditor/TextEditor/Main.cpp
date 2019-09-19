@@ -139,6 +139,12 @@ int main(int argc, char* argv[]) {
 		key = wgetch(mWin);
 		switch (key) {
 		case KEY_UP:
+			if (curs_y_pos == 0) {
+				start -= term_cols - 4;
+				drawText(mWin, fyle, term_rows, term_cols, start);
+				
+
+			}
 			if (curs_y_pos > 0) {
 				curs_y_pos--;
 				moveCursor(mWin, curs_y_pos, curs_x_pos);
@@ -146,14 +152,10 @@ int main(int argc, char* argv[]) {
 
 				get_curs_pos(mWin, botWin);
 			}
-			if (curs_y_pos == 0) {
-				start -= term_cols -3;
-				drawText(mWin, fyle, term_rows, term_cols, start);
-			}
 			break;
 		case KEY_DOWN:
 			if (curs_y_pos == term_rows - 7) {
-				start += 115;
+				start += term_cols - 4;
 				drawText(mWin, fyle, term_rows, term_cols, start);
 			}
 
@@ -238,25 +240,38 @@ void moveCursor(WINDOW* win, int y, int x) {
 	wmove(win, y, x);
 }
 
-void drawText(WINDOW* win, vector<char> &vect, const int term_rows, const int term_cols, int start) {
+void drawText(WINDOW* win, vector<char>& vect, const int term_rows, const int term_cols, int start) {
+	
 	int x = 0;
 	int y = 0;
-	int num_rows = 0;
 	int file_pos = start;
 	int file_end = (term_cols - 4) * (term_rows - 6) + file_pos - 2;
-	for (file_pos; file_pos < file_end; file_pos++) {
-		
-		if (x == term_cols - 4) {
-			y++;
-			x = 0;
-		}
 
-		if (file_pos < vect.size() && file_pos >= 0) {
-			mvwaddch(win, y, x, vect[file_pos]);
-			x++;
+
+	if (file_pos < vect.size()) {
+
+		for (file_pos; file_pos < file_end; file_pos++) {
+
+			// Word wraps when text reaches edge
+			if (x == term_cols - 4) {
+				y++;
+				x = 0;
+			}
+
+			if (file_pos < vect.size() && file_pos >= 0) {
+				mvwaddch(win, y, x, vect[file_pos]);
+				x++;
+			}
+			
+			else {
+				mvwaddch(win, y, x, 32);
+				x++;
+			}
+
 		}
 
 	}
+
 	wrefresh(win);
 }
 
