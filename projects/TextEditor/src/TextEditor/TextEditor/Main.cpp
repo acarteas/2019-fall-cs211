@@ -7,6 +7,9 @@
 
 using namespace std;
 
+void moveCursor(WINDOW* win, int y, int x);
+void drawText(WINDOW*, vector<string> &vect);
+
 int main(int argc, char* argv[]) {
 
 	
@@ -15,6 +18,8 @@ int main(int argc, char* argv[]) {
 	initscr();
 	noecho();
 	keypad(stdscr, TRUE);
+
+
 
 
 	// Main terminal
@@ -56,6 +61,11 @@ int main(int argc, char* argv[]) {
 	WINDOW* botWin = newwin(bHeight, bWidth, bStart_y, bStart_x); // Bottom window
 	WINDOW* rsWin = newwin(rsHeight, rsWidth, rsStart_y, rsStart_x); // Right side window
 
+	// Arrow key usage
+	keypad(mWin, TRUE);
+	keypad(topWin, TRUE);
+	keypad(botWin, TRUE);
+	keypad(rsWin, TRUE);
 
 	refresh();
 
@@ -107,52 +117,110 @@ int main(int argc, char* argv[]) {
 	// Displays  contents of vector in main window
 	int x_pos = 0;
 	int y_pos = 0;
-	for (int i = 0; i < term_rows - 8 ; i++) {
-		
-		mvwaddstr(mWin, y_pos, x_pos, file[i].c_str());
-		
-		y_pos += 1;
+	int fileLine = 0;
+	int endLine = 22 + fileLine;
+	for (fileLine; fileLine < endLine; fileLine++) {
+		if (fileLine < file.size()) {
+			mvwaddstr(mWin, y_pos, x_pos, file[fileLine].c_str());
 
-		wrefresh(mWin);
+			y_pos += 1;
+		}
+		
+	}
+	wrefresh(mWin);
+
+	
+
+
+	int curs_x_pos = 0;
+	int curs_y_pos = 0;
+	int key;
+	
+	// Movement of cursor with arrow keys
+	while (1) {
+		key = wgetch(mWin);
+		switch (key) {
+		case KEY_UP:
+			if (curs_y_pos > 0) {
+				curs_y_pos--;
+				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wrefresh(mWin);
+			}
+			break;
+		case KEY_DOWN:
+			if (curs_y_pos < term_rows - 7) {
+				curs_y_pos++;
+				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wrefresh(mWin);
+			}
+			break;
+		case KEY_RIGHT:
+			if (curs_x_pos < term_cols - 4) {
+				curs_x_pos++;
+				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wrefresh(mWin);
+			}
+			break;
+		case KEY_LEFT:
+			if (curs_x_pos > 0) {
+				curs_x_pos--;
+				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wrefresh(mWin);
+			}
+			break;
+		
+		default:
+			break;
+		}
+
 	}
 	
 
-	
-	int key_x_pos = 1; // Position of writing
-	int key_y_pos = 1; // Position of writing
-	
-	int ch;
-	ch = wgetch(mWin);
-
-	// Writes user input to screen
-	while (ch != KEY_F(8)) {
-		
-		// Checks if enter has been pressed and starts new line
-		if (ch == 10) {
-			key_y_pos += 1;
-			key_x_pos = 0;
-		
-		}
-
-		// Checks if line has reached edge of terminal and starts a new line
-		if (key_x_pos == term_cols - 3) {
-			key_y_pos += 1;
-			key_x_pos = 1;
-		}
-
-		// Prints typed char and updates for next position
-		mvwprintw(mWin, key_y_pos, key_x_pos, "%c", ch);
-		key_x_pos += 1;
-		wrefresh(mWin);
-		
-		ch = wgetch(mWin);
-	}
+//	
+//	int key_x_pos = 0; // Position of writing
+//	int key_y_pos = 0; // Position of writing
+//	
+//	int ch;
+//	ch = wgetch(mWin);
+//
+//
+//
+//	// Writes user input to screen
+//	while (ch != KEY_F(8)) {
+//		
+//		// Checks if enter has been pressed and starts new line
+//		if (ch == 10) {
+//			key_y_pos += 1;
+//			key_x_pos = 0;
+//		
+//		}
+//
+//		// Checks if line has reached edge of terminal and starts a new line
+//		if (key_x_pos == term_cols - 3) {
+//			key_y_pos += 1;
+//			key_x_pos = 1;
+//		}
+//
+//		// Prints typed char and updates for next position
+//		mvwprintw(mWin, key_y_pos, key_x_pos, "%c", ch);
+//		key_x_pos += 1;
+//		wrefresh(mWin);
+//		
+//		ch = wgetch(mWin);
+//	}
 	
 
 	endwin();
 
-
-	return 0;
+return 0;
 
 }
 
+void moveCursor(WINDOW* win, int y, int x) {
+	wmove(win, y, x);
+}
+
+void drawText(WINDOW*, vector<string> &vect) {
+
+
+}
