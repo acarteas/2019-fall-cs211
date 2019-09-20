@@ -9,7 +9,7 @@ using namespace std;
 
 void moveCursor(WINDOW* win, int y, int x); // Moves cursor based on arrow key input
 void drawText(WINDOW* win, vector<char> &vect, const int term_rows, const int term_cols, int start); // Displays  contents of vector in main window and get length
-void get_curs_pos(WINDOW* get, WINDOW* write); // Writes cursor's y and x position
+void get_curs_pos(WINDOW* get, WINDOW* write, int rows); // Writes cursor's y and x position
 
 int main(int argc, char* argv[]) {
 
@@ -124,67 +124,105 @@ int main(int argc, char* argv[]) {
 	wrefresh(botWin);
 */
 
+	
+
+	
+
+
+	//int curs_pos = 0;
+	//int y_pos = 0;
+
+	//int key;
+
+	//while (1) {
+	//	key = wgetch(mWin);
+	//	switch (key) {
+	//	
+	//	case KEY_RIGHT:
+	//		if (curs_pos % 116 == 0) {
+	//			y_pos++;
+	//		}
+	//		moveCursor(mWin, y_pos, curs_pos);
+	//		curs_pos++;
+	//	}
+
+	//}
+	
+	
 	int start = 0;
-
-	get_curs_pos(mWin, botWin);
+	int fyle_rows = fyle.size() / 114;
+	int row_num = 1;
+	mvwprintw(botWin, 1, 16, "%d", fyle_rows);
+	mvwprintw(botWin, 1, 1, "Number of rows:");
+	wrefresh(mWin);
+	get_curs_pos(mWin, botWin, row_num);
+	
 	drawText(mWin, fyle, term_rows, term_cols, start);
-
 	// Cursor position and key grab
 	int curs_x_pos = 0;
 	int curs_y_pos = 0;
+	//moveCursor(mWin, curs_y_pos, curs_x_pos);
+	wmove(mWin, curs_y_pos, curs_x_pos);
 	int key;
-	
+	key = wgetch(mWin);
 	// Movement of cursor with arrow keys
-	while (1) {
+	while (key != KEY_F(8)) {
 		key = wgetch(mWin);
 		switch (key) {
 		case KEY_UP:
-			if (curs_y_pos == 0) {
+			if (curs_y_pos == 0 && start > 0) {
 				start -= term_cols - 4;
 				drawText(mWin, fyle, term_rows, term_cols, start);
-				
-
+				row_num--;
+				get_curs_pos(mWin, botWin, row_num);
+				wrefresh(mWin);
 			}
 			if (curs_y_pos > 0) {
 				curs_y_pos--;
-				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				row_num--;
+				//moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wmove(mWin, curs_y_pos, curs_x_pos);
+				get_curs_pos(mWin, botWin, row_num);
 				wrefresh(mWin);
-
-				get_curs_pos(mWin, botWin);
 			}
 			break;
 		case KEY_DOWN:
-			if (curs_y_pos == term_rows - 7) {
+			if (curs_y_pos == term_rows - 7 && row_num < fyle_rows) {
 				start += term_cols - 4;
 				drawText(mWin, fyle, term_rows, term_cols, start);
+				row_num++;
+				get_curs_pos(mWin, botWin, row_num);
+				wrefresh(mWin);
 			}
-
 			if (curs_y_pos < term_rows - 7) {
 
 				curs_y_pos++;
-				moveCursor(mWin, curs_y_pos, curs_x_pos);
-				wrefresh(mWin);
+				row_num++;
+				//moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wmove(mWin, curs_y_pos, curs_x_pos);
 				
-				get_curs_pos(mWin, botWin);
+				get_curs_pos(mWin, botWin, row_num);
+				wrefresh(mWin);
 			}
-			
 			break;
 		case KEY_RIGHT:
 			if (curs_x_pos < term_cols - 4) {
 				curs_x_pos++;
-				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				//moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wmove(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
 
-				get_curs_pos(mWin, botWin);
+				get_curs_pos(mWin, botWin, row_num);
 			}
 			break;
 		case KEY_LEFT:
 			if (curs_x_pos > 0) {
 				curs_x_pos--;
-				moveCursor(mWin, curs_y_pos, curs_x_pos);
+				//moveCursor(mWin, curs_y_pos, curs_x_pos);
+				wmove(mWin, curs_y_pos, curs_x_pos);
 				wrefresh(mWin);
 
-				get_curs_pos(mWin, botWin);
+				get_curs_pos(mWin, botWin, row_num);
 			}
 			break;
 		
@@ -261,6 +299,7 @@ void drawText(WINDOW* win, vector<char>& vect, const int term_rows, const int te
 			if (file_pos < vect.size() && file_pos >= 0) {
 				mvwaddch(win, y, x, vect[file_pos]);
 				x++;
+			
 			}
 			
 			else {
@@ -271,23 +310,31 @@ void drawText(WINDOW* win, vector<char>& vect, const int term_rows, const int te
 		}
 
 	}
-
 	wrefresh(win);
 }
 
-void get_curs_pos(WINDOW* get, WINDOW* write) {
+void get_curs_pos(WINDOW* get, WINDOW* write, int rows) {
 	
 	int cursor_x_pos;
 	int cursor_y_pos;
 	getyx(get, cursor_y_pos, cursor_x_pos);
-	mvwprintw(write, 1, 20, "%d", cursor_y_pos);
+
+	mvwprintw(write, 1, 22, "X:");
 	mvwprintw(write, 1, 24, "%d", cursor_x_pos);
+
+	mvwprintw(write, 1, 27, "Y:");
+	mvwprintw(write, 1, 29, "%d", cursor_y_pos);
+
+	mvwprintw(write, 1, 32, "Row:");
+	mvwprintw(write, 1, 36, "%d", rows);
+	
+
 	wrefresh(write);
 
-	mvwaddch(write, 1, 21, 32);
-	mvwaddch(write, 1, 22, 32);
 	mvwaddch(write, 1, 25, 32);
 	mvwaddch(write, 1, 26, 32);
+	mvwaddch(write, 1, 30, 32);
+	mvwaddch(write, 1, 37, 32);
 
 }
 
