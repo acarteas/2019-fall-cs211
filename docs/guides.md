@@ -41,3 +41,7 @@ Reading files into vectors (helpful examples):
 5) https://stackoverflow.com/questions/21018661/simple-text-editing-program-in-c  (has awesome pseudocode for using a vector - though this is for a menu system, very helpful for visualizing code)
 
 6) https://stackoverflow.com/questions/9751932/displaying-contents-of-a-vector-container-in-c (another possibility for using vector for files - make a copy)
+
+Converting from string to wstring (and back again)
+
+1) https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t (see answer from lmiguelmh)

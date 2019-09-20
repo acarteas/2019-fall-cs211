@@ -1,4 +1,6 @@
 #define PDC_DLL_BUILD 1
+#define PDC_WIDE 1
+//#define MOUSE_WHEEL_SCROLL 
 
 #include "curses.h"
 #include "curspriv.h"
@@ -43,11 +45,16 @@ int main(int argc, char** argv)
 	//turn off keyboard echo
 	noecho();
 
+	//allow scrolling
+	scrollok(sub_window, TRUE);
+
 	//turn on keypad input
 	keypad(main_window, true);
 
 	//hide the cursor
-	curs_set(FALSE);
+	curs_set(TRUE);
+	wmove(sub_window, 0, 0);
+	wrefresh(sub_window);
 
 	//MAIN PROGRAM LOGIC GOES HERE
 
@@ -80,69 +87,72 @@ int main(int argc, char** argv)
 
 	//Pause for user input
 	//char input = getch();
-	wattron(sub_window, A_STANDOUT);
-	mvwaddstr(sub_window, 1, 50, "INPUT ASTERICK * TO EXIT");
-	wattroff(sub_window, A_STANDOUT);
+	attron(A_STANDOUT);
+	mvwaddstr(main_window, 2, (num_cols / 2) - 25, "INPUT ASTERICK * TO EXIT");
+	attroff(A_STANDOUT);
 	//wmove(sub_window, 20, 20);
 	char typing = ' ';
-	int col_loc = 3;
-	int row_loc = 1;
+	int row_loc = 3;
+	int col_loc = 1;
 
 	//while typing any key but asterick, getch() will save value to type_input
-	//then it will be added to subwin as a char based on the current location of row_loc and
-	//col_loc, counter for row will then increment by one unless it's at the end of the 
-	//screen, then col_loc will increment by one and row will revert to zero
+	//then it will be added to subwin as a char based on the current location of col_loc and
+	//row_loc, counter for row will then increment by one unless it's at the end of the 
+	//screen, then row_loc will increment by one and row will revert to zero
 	while (typing != '*')
 	{
 		int type_input = getch();
 
 		if (type_input == 27)
 		{
-			vector<string> myFile;
+
+			vector<wstring> myFile;
 			ifstream src;
 			src.open("test.txt");
 			string line;
 
 			while (!src.eof())
 			{
+
 				getline(src, line);
-				myFile.push_back(line);
+				myFile.push_back(wstring{ line.begin(), line.end() });
 			}
 
 			src.close();
 
 			//string newline;
 
-			//Note to self: possibly use copy constructor instead of for loop?
+			//Note to self: possibly use copy constructor instead of for loop?row_loc
 
 			for (int i = 0; i < myFile.size(); i++)
 			{
-				myFile[i] = line;
-				row_loc = sizeof(line) + row_loc;
-				mvwaddstr(sub_window, row_loc, col_loc, line.c_str());
-				row_loc++;
-				wrefresh(sub_window);
+
+				//col_loc = sizeof(line) + col_loc;
+				mvwaddwstr(sub_window, col_loc, row_loc, myFile[i].c_str());
+				col_loc++;
+				
 			}
+			wrefresh(sub_window);
 		}
 
 		//if enter key is pressed, move to new line
 		if (type_input == 10)
 		{
-			col_loc++;
-			row_loc = 0;
+			row_loc++;
+			col_loc = 0;
 		}
 		else
 		{
-			mvwaddch(sub_window, col_loc, row_loc, type_input);
+			mvwaddch(sub_window, row_loc, col_loc, type_input);
 			typing = type_input;
 			wrefresh(sub_window);
 		}
-		if (row_loc >= num_cols - 4)
+		if (col_loc >= num_cols - 20)
 		{
-			col_loc++;
-			row_loc = 0;
+			row_loc++;
+			col_loc = 0;
 		}
-		row_loc++;
+		col_loc++;
 	}
 
 	//user presses asterick to exit, subwindow clears, main window clears
