@@ -5,6 +5,13 @@
 #include "curspriv.h"
 #include <string>
 #include <cstring>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <stdlib.h>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,29 +20,41 @@ int num_rows = 0;
 int y, x;
 WINDOW* main_window = nullptr;
 
-void backspace()
-{
-	noecho();
-	nocbreak();
-	getyx(main_window, y, x);
-	move(y, x - 1);
-	delch();
-	cbreak();
-	refresh();
-}
-
 int main(int argc, char* argv[])
 {
+	/*char ans, filename[50];
+	fstream ifstream;
+	ofstream outstream;
+	cout << "Enter the name of your file, If the file does not exist one will be made:" << endl;
+	cin.getline(filename, 50);
+	ifstream.open(filename);
+
+	if (!ifstream.is_open())
+	{
+		//I will give a failure staatement will change later on
+		cout << "Error! File not found!" << endl;
+	}
+
+	char word[50];
+	ifstream >> word;
+	while (ifstream.good())
+	{
+		cout << word << " ";
+		ifstream >> word;
+	}*/
+
 
 	//Initialize our window
 	main_window = initscr();
 
 	//resize our window
-	resize_term(2500, 2500);
+	resize_term(5000, 5000);
 	getmaxyx(main_window, num_rows, num_cols);
 	resize_term(num_rows - 1, num_cols - 1);
 	getmaxyx(main_window, num_rows, num_cols);
 	
+
+	vector<string> my_vec = { " " };
 
 	//Turn keyboard echo
 	noecho();
@@ -71,11 +90,11 @@ int main(int argc, char* argv[])
 	attron(COLOR_PAIR(1));
 	//printw("");
 
-	mvaddstr(0, 0, "File");
-	mvaddstr(0, 5, "Edit");
-	mvaddstr(0, 10, "Format");
-	mvaddstr(0, 17, "View");
-	mvaddstr(0, 22, "Help");
+	mvaddstr(0, 2, "File");
+	mvaddstr(0, 7, "Edit");
+	mvaddstr(0, 12, "Format");
+	mvaddstr(0, 19, "View");
+	mvaddstr(0, 24, "Help");
 	attroff(COLOR_PAIR(1));
 
 
@@ -90,9 +109,13 @@ int main(int argc, char* argv[])
 
 	//pause for user input
 	
-	char space = ' ';
 	cbreak();
 	getyx(main_window, y, x);
+
+	ifstream input_stream;
+	ofstream output_stream;
+	
+
 
 
 
@@ -102,15 +125,40 @@ int main(int argc, char* argv[])
 	scrollok(main_window, TRUE);
 	while (1)
 	{
+		if (argc == 2)
+		{
+			input_stream.open(argv[1]);
+
+			if (input_stream.is_open() == false)
+			{
+				mvwaddstr(main_window, y, x, "Error: File not found!");
+			}
+			else
+			{
+				input_stream.open("sample.txt");
+			}
+		}
+		vector<string> word{};
+		while (input_stream.good() == true)
+		{
+			getline(input_stream, input);
+			word.push_back(input);
+		}
+
+		
 
 		int input = getch();
-
+		
 		switch (input)
 		{
 		case KEY_MOUSE:
-			scrollok(main_window, TRUE);
+			if (input == MOUSE_WHEEL_SCROLL)
+			{
+				scroll(main_window);
+			}
          break;
 		case KEY_RESIZE:
+			cbreak();
 			resize_term(0, 0);
 			break;
 		case KEY_UP:
@@ -140,15 +188,22 @@ int main(int argc, char* argv[])
 		case KEY_ENTER: case '\r': case '\n':
 			y++;
 			x = 2;
+			if (y == num_rows)
+				num_rows += 1;
 			wmove(main_window, y, x);
 			break;
 
 		//The backspace key is not working at the moment
 		case KEY_BACKSPACE: case KEY_DC: case 127: case '\b':
+			delch();
 			x -= 1;
 			if (x <= 2)
+			{
 				x = 2;
-			delch();
+				y -= 1;
+			}
+			if (y <= 2)
+				y = 2;
 			wmove( main_window, y, x);
 			break;
 
@@ -157,7 +212,7 @@ int main(int argc, char* argv[])
 			wmove(main_window, y, x);
 
 		case ' ':
-			mvaddch(y, x, space);
+			mvaddch(y, x,' ');
 			x++;
 			wmove(main_window, y, x);
 			break;
