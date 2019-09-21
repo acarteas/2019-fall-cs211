@@ -11,11 +11,20 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <locale>
+#include <codecvt>
 
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
+
+	cout << "Argument output: " << endl;
+	for (int i = 0; i < argc; i++)
+	{
+		cout << argv[i] << endl;
+	}
+
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
 	int num_rows = 0;
@@ -52,7 +61,7 @@ int main(int argc, char** argv)
 	keypad(main_window, true);
 
 	//hide the cursor
-	curs_set(TRUE);
+	curs_set(FALSE);
 	wmove(sub_window, 0, 0);
 	wrefresh(sub_window);
 
@@ -81,41 +90,60 @@ int main(int argc, char** argv)
 	//refresh tells curses to draw everything
 	refresh();
 	touchwin(stdscr);
-	//wrefresh(sub_window);
 
 	//END OF PROGRAM LOGIC GOES HERE
 
 	//Pause for user input
-	//char input = getch();
 	attron(A_STANDOUT);
 	mvwaddstr(main_window, 2, (num_cols / 2) - 25, "INPUT ASTERICK * TO EXIT");
 	attroff(A_STANDOUT);
-	//wmove(sub_window, 20, 20);
+
 	char typing = ' ';
 	int row_loc = 3;
 	int col_loc = 1;
 
+	//scrolling features
+	int maxy;
+	int maxx;
+	int i = 2;
+	getmaxyx(sub_window, maxy, maxx);
+
+	if (col_loc > num_cols - 2)
+	{
+		while (1)
+		{
+			wprintw(sub_window, "%d - this is a scrolling test!");
+			++i;
+			wrefresh(sub_window);
+		}
+	}
+
 	//while typing any key but asterick, getch() will save value to type_input
 	//then it will be added to subwin as a char based on the current location of col_loc and
-	//row_loc, counter for row will then increment by one unless it's at the end of the 
-	//screen, then row_loc will increment by one and row will revert to zero
+	//row_loc, counter for column will then increment by one unless it's at the end of the 
+	//screen, then row_loc will increment by one and col_loc will revert to default location
 	while (typing != '*')
 	{
 		int type_input = getch();
 
 		if (type_input == 27)
 		{
-
+			//string filename = argv[1];
 			vector<wstring> myFile;
 			ifstream src;
-			src.open("test.txt");
+			src.open("Test.txt");
+			//src.open(filename);
 			string line;
+			wstring newline;
 
 			while (!src.eof())
 			{
 
 				getline(src, line);
-				myFile.push_back(wstring{ line.begin(), line.end() });
+				std::wstring str_turned_to_wstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(line);
+				std::string wstr_turned_to_str = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(newline);
+				myFile.push_back(newline);
+				//myFile.push_back(wstring{ line.begin(), line.end() });
 			}
 
 			src.close();
@@ -163,7 +191,6 @@ int main(int argc, char** argv)
 		clear();
 		refresh();
 		wrefresh(sub_window);
-		exit(1);
 	}
 
 	wrefresh(sub_window);
