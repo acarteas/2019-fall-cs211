@@ -3,6 +3,7 @@
 #include "curspriv.h"
 #include <string>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -41,35 +42,30 @@ int main(void)
 
 	//pause for user input
 	bool keep_going = true;
+
+	//open unicode-compatible file w stands for "wide" or unicode 
+	wofstream output_file{ "output.txt" };
+
 	while (keep_going == true)
 	{
-		//clear window
-		wclear(main_window);
-
-		ostringstream temp_str{};
-		temp_str << "width: " << num_cols << " height: " << num_rows;
-		draw_centered(main_window, num_rows, num_cols, temp_str.str().c_str());
 		refresh();
+
+		//Note: 
 		int input = wgetch(main_window);
 
-		//Curses documentation says to use KEY_RESIZE, but you can also use
-		//is_termresized.  In real life, use either/or but not both.
-		if (is_termresized() == true)
-		{
-			resize_term(0, 0);
-			getmaxyx(main_window, num_rows, num_cols);
-		}
 		switch (input)
 		{
 		case ctrl('c'):
 			keep_going = false;
-		case KEY_RESIZE:
-			resize_term(0, 0);
-			getmaxyx(main_window, num_rows, num_cols);
+		default:
+			mvwaddch(main_window, 0, 0, input);
+			output_file << (wchar_t)input;
 		}
 	}
 	//end curses mode
 	endwin();
+
+	output_file.close();
 }
 
 void draw_centered(WINDOW* win, int max_y, int max_x, string text)
