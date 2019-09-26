@@ -51,7 +51,7 @@ int main(void)
 		refresh();
 
 		//Note: 
-		int input = wgetch(main_window);
+		wchar_t input = wgetch(main_window);
 
 		switch (input)
 		{
@@ -59,7 +59,7 @@ int main(void)
 			keep_going = false;
 		default:
 			mvwaddch(main_window, 0, 0, input);
-			output_file << (wchar_t)input;
+			output_file << input;
 		}
 	}
 	//end curses mode
