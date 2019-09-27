@@ -134,16 +134,16 @@ int main(int argc, char* argv[])
 			src.open("Test.txt");
 			//src.open(filename);
 			string line;
-			wstring newline;
+			//wstring newline;
 
 			while (!src.eof())
 			{
 
 				getline(src, line);
-				std::wstring str_turned_to_wstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(line);
-				std::string wstr_turned_to_str = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(newline);
-				myFile.push_back(newline);
-				//myFile.push_back(wstring{ line.begin(), line.end() });
+				//std::wstring str_turned_to_wstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(line);
+				//std::string wstr_turned_to_str = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(newline);
+				//myFile.push_back(newline);
+				myFile.push_back(wstring{ line.begin(), line.end() });
 			}
 
 			src.close();
@@ -158,7 +158,14 @@ int main(int argc, char* argv[])
 				//col_loc = sizeof(line) + col_loc;
 				mvwaddwstr(sub_window, col_loc, row_loc, myFile[i].c_str());
 				col_loc++;
-				
+
+			}
+
+			if (type_input == '`')
+			{
+				ofstream src;
+				src.open("test.txt");
+
 			}
 			wrefresh(sub_window);
 		}
@@ -199,3 +206,4 @@ int main(int argc, char* argv[])
 	delwin(sub_window);
 	endwin();
 }
+

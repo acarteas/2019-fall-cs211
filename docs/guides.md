@@ -45,3 +45,7 @@ Reading files into vectors (helpful examples):
 Converting from string to wstring (and back again)
 
 1) https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t (see answer from lmiguelmh)
+
+Output to text file:
+
+1) https://invisible-island.net/ncurses/man/scr_dump.5.html (UNSURE IF IT WORKS??)
