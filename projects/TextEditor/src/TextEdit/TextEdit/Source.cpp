@@ -13,6 +13,7 @@
 #include <ctime>
 #include <algorithm>
 #include <stdio.h>
+#include <cmath>
 
 using namespace std;
 
@@ -131,12 +132,12 @@ int main(int argc, char* argv[])
 			wrefresh(main_window);
 	}
 	input.close();
-	ofstream out_file("sample.txt", std::ios_base::app);
+	
+	
 	//Setting up the special keys.
 	keypad(stdscr, TRUE);
 	mousemask(ALL_MOUSE_EVENTS, NULL);
 	scrollok(main_window, TRUE);
-	int i = 2;
 
 	while (1)
 	{
@@ -181,6 +182,7 @@ int main(int argc, char* argv[])
 			if (y >=num_rows)
 				num_rows += 1;
 			wmove(main_window, y, x);
+			in_file.push_back(input);
 			break;
 
 		//The backspace key is not working at the moment
@@ -198,367 +200,312 @@ int main(int argc, char* argv[])
 				y = 2;
 			}
 			wmove( main_window, y, x);
-			out_file << delch();
+			in_file.push_back(input);
 			break;
 
 		case KEY_STAB: case '\t':
 			x += 8;
-			wmove(main_window, y, x);
-			out_file << "        ";
 		case ' ':
 			mvaddch(y, x,' ');
 			x++;
-			wmove(main_window, y, x);
-			out_file << ' ';
+			in_file.push_back(input);
 			break;
 
 		case 'a':
 			mvaddch(y, x, 'a');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'a';
+			in_file.push_back(input);
 			break;
 		case 'A':
 			mvaddch(y, x, 'A');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'A';
+			in_file.push_back(input);
 			break;
 		case 'b':
 			mvaddch(y, x, 'b');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'b';
+			in_file.push_back(input);
 			break;
 		case 'B':
 			mvaddch(y, x, 'B');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'B';
+			in_file.push_back(input);
 			break;
 		case 'c':
 			mvaddch(y, x, 'c');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'c';
+			in_file.push_back(input);
 			break;
 		case 'C':
 			mvaddch(y, x, 'C');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'C';
+			in_file.push_back(input);
 			break;
 		case 'd':
 			mvaddch(y, x, 'd');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'd';
+			in_file.push_back(input);
 			break;
 		case 'D':
 			mvaddch(y, x, 'D');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'D';
+			in_file.push_back(input);
 			break;
 		case 'e':
 			mvaddch(y, x, 'e');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'e';
+			in_file.push_back(input);
 			break;
 		case 'E':
 			mvaddch(y, x, 'E');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'E';
+			in_file.push_back(input);
 			break;
 		case 'f':
 			mvaddch(y, x, 'f');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'f';
+			in_file.push_back(input);
 			break;
 		case 'F':
 			mvaddch(y, x, 'F');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'F';
+			in_file.push_back(input);
 			break;
 		case 'g':
 			mvaddch(y, x, 'g');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'g';
+			in_file.push_back(input);
 			break;
 		case 'G':
 			mvaddch(y, x, 'G');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'G';
+			in_file.push_back(input);
 			break;
 		case 'h':
 			mvaddch(y, x, 'h');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'h';
+			in_file.push_back(input);
 			break;
 		case 'H':
 			mvaddch(y, x, 'H');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'H';
+			in_file.push_back(input);
 			break;
 		case 'i':
 			mvaddch(y, x, 'i');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'i';
+			in_file.push_back(input);
 			break;
 		case 'I':
 			mvaddch(y, x, 'I');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'I';
+			in_file.push_back(input);
 			break;
 		case 'j':
 			mvaddch(y, x, 'j');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'j';
+			in_file.push_back(input);
 			break;
 		case 'J':
 			mvaddch(y, x, 'J');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'J';
+			in_file.push_back(input);
 			break;
 		case 'k':
 			mvaddch(y, x, 'k');
+			in_file.push_back(input);
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'k';
 			break;
 		case 'K':
 			mvaddch(y, x, 'K');
-			x++;
-			wmove(main_window, y, x);
-			out_file << 'K';
+			x++; in_file.push_back(input);
 			break;
 		case 'l':
 			mvaddch(y, x, 'l');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'l';
+			in_file.push_back(input);
 			break;
 		case 'L':
 			mvaddch(y, x, 'L');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'L';
+			in_file.push_back(input);
 			break;
 		case 'm':
 			mvaddch(y, x, 'm');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'm';
+			in_file.push_back(input);
 			break;
 		case 'M':
 			mvaddch(y, x, 'M');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'M';
+			in_file.push_back(input);
 			break;
 		case 'n':
 			mvaddch(y, x, 'n');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'n';
+			in_file.push_back(input);
 			break;
 		case 'N':
 			mvaddch(y, x, 'N');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'N';
+			in_file.push_back(input);
 			break;
 		case 'o':
 			mvaddch(y, x, 'o');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'o';
+			in_file.push_back(input);
 			break;
 		case 'O':
 			mvaddch(y, x, 'O');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'O';
+			in_file.push_back(input);
 			break;
 		case 'p':
 			mvaddch(y, x, 'p');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'p';
+			in_file.push_back(input);
 			break;
 		case 'P':
 			mvaddch(y, x, 'P');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'P';
+			in_file.push_back(input);
 			break;
 		case 'q':
 			mvaddch(y, x, 'q');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'q';
+			in_file.push_back(input);
 			break;
 		case 'Q':
 			mvaddch(y, x, 'Q');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'Q';
+			in_file.push_back(input);
 			break;
 		case 'r':
 			mvaddch(y, x, 'r');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'r';
+			in_file.push_back(input);
 			break;
 		case 'R':
 			mvaddch(y, x, 'R');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'R';
+			in_file.push_back(input);
 			break;
 		case 's':
 			mvaddch(y, x, 's');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 's';
+			in_file.push_back(input);
 			break;
 		case 'S':
 			mvaddch(y, x, 'S');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'S';
+			in_file.push_back(input);
 			break;
 		case 't':
 			mvaddch(y, x, 't');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 't';
+			in_file.push_back(input);
 			break;
 		case 'T':
 			mvaddch(y, x, 'T');
-			x++;
-			wmove(main_window, y, x);
-			out_file << 'T';
+			x++; 
+			in_file.push_back(input);
 			break;
 		case 'u':
 			mvaddch(y, x, 'u');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'u';
+			in_file.push_back(input);
 			break;
 		case 'U':
 			mvaddch(y, x, 'U');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'U';
+			in_file.push_back(input);
 			break;
 		case 'v':
 			mvaddch(y, x, 'v');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'v';
+			in_file.push_back(input);
 			break;
 		case 'V':
 			mvaddch(y, x, 'V');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'V';
+			in_file.push_back(input);
 			break;
 		case 'w':
 			mvaddch(y, x, 'w');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'w';
+			in_file.push_back(input);
 			break;
 		case 'W':
 			mvaddch(y, x, 'W');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'W';
+			in_file.push_back(input);
 			break;
 		case 'x':
 			mvaddch(y, x, 'x');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'x';
+			in_file.push_back(input);
 			break;
 		case 'X':
 			mvaddch(y, x, 'X');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'X';
+			in_file.push_back(input);
 			break;
 		case 'y':
 			mvaddch(y, x, 'y');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'y';
+			in_file.push_back(input);
 			break;
 		case 'Y':
 			mvaddch(y, x, 'Y');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'Y';
+			in_file.push_back(input);
 			break;
 		case 'z':
 			mvaddch(y, x, 'z');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'z';
+			in_file.push_back(input);
 			break;
 		case 'Z':
 			mvaddch(y, x, 'Z');
 			x++;
-			wmove(main_window, y, x);
-			out_file << 'Z';
+			in_file.push_back(input);
 			break;
 		case '.':
 			mvaddch(y, x, '.');
 			x++;
-			wmove(main_window, y, x);
-			out_file << '.';
+			in_file.push_back(input);
 			break;
 		case ',':
 			mvaddch(y, x, ',');
 			x++;
-			wmove(main_window, y, x);
-			out_file << ',';
+			in_file.push_back(input);
 			break;
 		case ';':
 			mvaddch(y, x, ';');
 			x++;
-			wmove(main_window, y, x);
-			out_file << ';';
+			in_file.push_back(input);
 			break;
 		case '"':
 			mvaddch(y, x, '"');
 			x++;
-			wmove(main_window, y, x);
-			out_file << '"';
+			in_file.push_back(input);
 			break;
 		case '!':
 			mvaddch(y, x, '!');
 			x++;
-			out_file << '!';
+			in_file.push_back(input);
 			break;
 		}
 		wrefresh(main_window);
-	
-		
 	}
-	out_file.close();
+	
+	ofstream out_stream("replica.txt");
+
+	for (int i = 0; i < in_file.size(); i++)
+	{
+		out_stream << in_file[i];
+	}
+	rename("replica.txt", "sample.txt");
 
 
 	//end cursor
