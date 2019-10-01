@@ -1,13 +1,14 @@
 #pragma once
-#ifndef LABEL_HPP
-#define LABEL_HPP
+#ifndef TEXTBOX_HPP
+#define TEXTBOX_HPP
 #include "UiComponent.hpp"
+#include "Interactable.hpp"
 #include <string>
 using std::string;
 
 namespace CursesUi
 {
-	class Label : public UiComponent
+	class TextBox : public UiComponent, public Interactable
 	{
 	protected:
 		string _text;
@@ -16,7 +17,7 @@ namespace CursesUi
 
 		//Note: curses does things backwards.  Keep
 		//with that standard
-		Label(WINDOW* parent = 0,
+		TextBox(WINDOW* parent = 0,
 			int height = 0,
 			int width = 0,
 			int y = 0,
@@ -27,7 +28,7 @@ namespace CursesUi
 		{
 		}
 
-		Label(WINDOW* parent = 0,
+		TextBox(WINDOW* parent = 0,
 			int y = 0,
 			int x = 0,
 			string text = "")
@@ -35,7 +36,6 @@ namespace CursesUi
 			_text(text)
 		{
 		}
-
 
 		string getText() const
 		{
@@ -54,10 +54,19 @@ namespace CursesUi
 
 		virtual void render()
 		{
-			if (_canvas != nullptr)
+		}
+
+		virtual void handleKeyboardInput(wchar_t input)
+		{
+			waddch(_canvas, input);
+			_needs_refresh = true;
+		}
+
+		virtual void handleMouseInput(int y, int x, MouseClick click_type)
+		{
+			if (click_type == MouseClick::LEFT_CLICK)
 			{
-				wmove(_canvas, 0, 0);
-				waddstr(_canvas, _text.c_str());
+				wmove(_canvas, y, x);
 			}
 		}
 	};

@@ -38,6 +38,12 @@
     <ClInclude Include="UiComponents\Label.hpp">
       <Filter>Header Files\UiComponents</Filter>
     </ClInclude>
+    <ClInclude Include="UiComponents\TextBox.hpp">
+      <Filter>Header Files\UiComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="UiComponents\Interactable.hpp">
+      <Filter>Header Files\UiComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="pdcurses.dll">
