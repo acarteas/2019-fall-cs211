@@ -23,6 +23,9 @@
     <None Include="readme.md">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="FirstNames.txt">
