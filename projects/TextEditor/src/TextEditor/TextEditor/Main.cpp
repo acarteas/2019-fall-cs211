@@ -144,7 +144,10 @@ int main(int argc, char* argv[]) {
 	while (key != KEY_F(8)) {
 
 		// Experimental
-
+		
+		mvwaddch(botWin, 1, 48, 32);
+		mvwaddch(botWin, 1, 49, 32);
+		mvwaddch(botWin, 1, 50, 32);
 		mvwprintw(botWin, 1, 47, "%d", vect_pos);
 		wrefresh(botWin);
 
@@ -187,13 +190,14 @@ int main(int argc, char* argv[]) {
 			if (key == 10) {
 				curs_y_pos += 1;
 				curs_x_pos = 0;
-				vect_pos += 115;
+				vect_pos += (term_cols - 4);
 				continue;
 			}
 
 				// Checks if backspace was entered
 				if (key == 8) {
 					if (curs_x_pos == 0 && curs_y_pos > 0) {
+						vect_pos -= (term_cols - 4);
 						curs_y_pos--;
 						curs_x_pos = term_cols - 4;
 					}
@@ -204,13 +208,35 @@ int main(int argc, char* argv[]) {
 					continue;
 				}
 			
-		// Prints typed char and updates for next position
-		mvwprintw(mWin, curs_y_pos, curs_x_pos, "%c", key);
-		curs_x_pos++;
-		vect_pos++;
+				// if end of line
+				if (curs_x_pos == term_cols - 4) {
+					
+					curs_x_pos = 0;
+					curs_y_pos++;
+				}
 		
+			// Prints typed char and updates for next position
+			mvwprintw(mWin, curs_y_pos, curs_x_pos, "%c", key);
+			curs_x_pos++;
+			vect_pos++;
+		
+			
+		
+		
+		
+		
+			// Opens file, edits vector with key char, then writes entire vector to new file "Edited.txt"
 			output.open ("Edited.txt");
+
+			// If vector position exceeds vector size - resize vector
+			if (vect_pos >= fyle.size()) { 
+
+				fyle.push_back(key);
+
+			}
+
 			fyle[vect_pos] = key;
+
 			for (int i = 0; i < fyle.size(); i++) {
 				output << fyle[i];
 
@@ -228,33 +254,55 @@ int main(int argc, char* argv[]) {
 			}
 			if (curs_y_pos > 0) {
 				curs_y_pos--;
-				vect_pos -= 116;
+				vect_pos -= (term_cols - 4);
 				row_num--;
 			}
 			break;
 		case KEY_DOWN:
 			if (curs_y_pos == term_rows - 7 && row_num < fyle_rows) {
 				start += term_cols - 4;
-				vect_pos += 116;
+				vect_pos += (term_cols - 4);
 				curs_y_pos = term_rows - 7;
 				drawText(mWin, fyle, term_rows, term_cols, start);
 				row_num++;
 			}
 			if (curs_y_pos < term_rows - 7) {
 				curs_y_pos++;
-				vect_pos += 116;
+				vect_pos += (term_cols - 4);
 				row_num++;
 			}
 			break;
 		case KEY_RIGHT:
-			if (curs_x_pos < term_cols - 4) {
+			if (curs_x_pos < term_cols - 5
+				&& vect_pos < fyle.size() - 1
+				|| vect_pos == -1) {
 				curs_x_pos++;
+				vect_pos++;
+			}
+			else if (vect_pos < fyle.size() - 1){
+				curs_y_pos++;
+				curs_x_pos = 0;
 				vect_pos++;
 			}
 			break;
 		case KEY_LEFT:
 			if (curs_x_pos > 0) {
 				curs_x_pos--;
+				vect_pos--;
+			}
+
+
+
+
+
+
+
+
+
+			// WORK IN PROGRESS
+			else if (vect_pos > -1) {
+				curs_x_pos = (term_cols - 5);
+				curs_y_pos--;
 				vect_pos--;
 			}
 			break;
