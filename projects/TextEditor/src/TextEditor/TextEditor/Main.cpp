@@ -300,11 +300,11 @@ int main(int argc, char* argv[]) {
 
 
 			// WORK IN PROGRESS
-			else if (vect_pos > -1) {
+			/*else if (vect_pos > -1) {
 				curs_x_pos = (term_cols - 5);
 				curs_y_pos--;
 				vect_pos--;
-			}
+			}*/
 			break;
 		
 		default:
