@@ -24,9 +24,7 @@ Critics claim that clients both want and need confidentiality for a variety of r
 These arguments have some real flaws. The simple truth is that justice relies on the fact that guilty people will be punished and innocent people will go free. Attorney-client privilege promises that neither of these things is going to happen. The courts can't have access to important documents or other information that shows someone has committed a crime or that demonstrates evidence that someone else is innocent.
 
 People don't seek legal advice because it is confidential. Lots of people confide in non-legal parties (like friends and relatives), knowing that these people may have to eventually testify against them. Moreover, whether we have attorney-client privilege or not, people withhold information from their lawyers, hoping to save their reputations. Laws were designed to protect the innocent, unfortunately this law more often than not protects the guilty.
-
 There are hundreds of situations where civil interests should be protected before a client's interests, and the courts should make that decision accordingly. If an innocent person is going to jail because of attorney-client privilege or knowledge of a crime is being covered up - a financial crime that will be devastating to thousands, for example - an attorney has an ethical obligation to report that. Yet the attorney-client privilege stands in the way of his/her doing so.
-
 Keeping attorney-client privilege in our system only allows the guilty, the rich, and the powerful to dominate our society, despite what any critics may say.
 
 Our justice system was founded on protecting the rights of the innocent, and that simply cannot happen with archaic rules like attorney-client privilege.

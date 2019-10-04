@@ -93,6 +93,7 @@ int main(int argc, char* argv[]) {
 	
 	// Loads specified file from command line in to a vector
 	ifstream input (argv[1]);
+	ofstream output;
 	input >> noskipws;
 	vector<char> fyle{};
 
@@ -129,7 +130,7 @@ int main(int argc, char* argv[]) {
 	
 	drawText(mWin, fyle, term_rows, term_cols, start); // Draws text to screen
 
-	int vect_pos = 0; // Position of cursor in vector
+	int vect_pos = -1; // Position of cursor in vector
 	int key_x_pos = 0; // Position of writing
 	int key_y_pos = 0; // Position of writing
 	
@@ -146,6 +147,22 @@ int main(int argc, char* argv[]) {
 
 		mvwprintw(botWin, 1, 47, "%d", vect_pos);
 		wrefresh(botWin);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -191,6 +208,14 @@ int main(int argc, char* argv[]) {
 		mvwprintw(mWin, curs_y_pos, curs_x_pos, "%c", key);
 		curs_x_pos++;
 		vect_pos++;
+		
+			output.open ("Edited.txt");
+			fyle[vect_pos] = key;
+			for (int i = 0; i < fyle.size(); i++) {
+				output << fyle[i];
+
+			}
+			output.close();
 		}
 		
 		// Movement of cursor with arrow keys

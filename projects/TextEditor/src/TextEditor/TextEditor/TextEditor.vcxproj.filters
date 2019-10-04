@@ -44,5 +44,8 @@
     <Text Include="beep.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Edited.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
