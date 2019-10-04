@@ -1,2 +1,20 @@
-Milestone 3 was a good opportunity to refactor my code and brought some more design issues to my attention that I had not thought of before. Initially, when I started the process of implementing file writing I had taken a few days off and had not looked at my code. When I came back, I it took me a while of reading through my code to remember what everything was doing. In the process of reminding myself what did what, I noticed lots of code that was redundant and inefficient; even some that was completely useless and simply wasting space and resources. Most of my clutter was from excessive function calls inside my while loop looking for key input. Calling the same function after each if statement instead of calling it once at the beginning of the loop. Cleaning out excessive function calls, and unnecessary clutter, cut my code in half and made implementing a new feature a whole lot cleaner.
-Once I refreshed on the syntax of file output, basic implementation of editing a file was very straight forward for me. I track the cursors position on screen with regard to its position inside the vector and then when a valid key is pressed, I write that key to the vectors’ position. Currently every time a valid input is detected it re-writes the entire vector in the file. I would like to only edit the vector when necessary to increase efficiency, but that will come next. The main issue I am struggling with is at the moment when a valid input is detected, it simply writes over whatever was at that position. This is because what is written on the screen has no bearing on the vector itself unless I tell it to write to it. This has its advantage in that I don’t have to re-draw the vector on the screen every time I type a character since I am writing over the text not actually in it. However, I would like the text to be pushed forward by the new text instead of writing over it. At the moment I have no solution to this problem, but I hope that I can devise something that doesn’t require a large redesign.
+Milestone 3 was a good opportunity to refactor my code and brought some more design issues to my attention that I had not thought of before.
+Initially, when I started the process of implementing file writing I had taken a few days off and had not looked at my code. When I came
+back, I it took me a while of reading through my code to remember what everything was doing. In the process of reminding myself what did
+what, I noticed lots of code that was redundant and inefficient; even some that was completely useless and simply wasting space and 
+resources. Most of my clutter was from excessive function calls inside my while loop looking for key input. Calling the same function after
+each if statement instead of calling it once at the beginning of the loop. Cleaning out excessive function calls, and unnecessary clutter,
+cut my code in half and made implementing a new feature a whole lot cleaner.
+Once I refreshed on the syntax of file output, basic implementation of editing a file was very straight forward for me. I track the cursors
+position on screen with regard to its position inside the vector and then when a valid key is pressed, I write that key to the vectors’
+position. Currently every time a valid input is detected it re-writes the entire vector in the file. I would like to only edit the vector
+when necessary to increase efficiency, but that will come next. The main issue I am struggling with is at the moment when a valid input is
+detected, it simply writes over whatever was at that position. This is because what is written on the screen has no bearing on the vector
+itself unless I tell it to write to it. This has its advantage in that I don’t have to re-draw the vector on the screen every time I type a
+character since I am writing over the text not actually in it. However, I would like the text to be pushed forward by the new text instead
+of writing over it. At the moment I have no solution to this problem, but I hope that I can devise something that doesn’t require a large
+redesign.
+
+gif
+
+https://github.com/bot-jamesschulz/2019-fall-cs211/blob/master/projects/TextEditor/docs/LICEcap%20gifs.gif
