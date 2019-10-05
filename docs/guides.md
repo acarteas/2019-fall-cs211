@@ -49,3 +49,9 @@ Converting from string to wstring (and back again)
 Output to text file:
 
 1) https://invisible-island.net/ncurses/man/scr_dump.5.html (UNSURE IF IT WORKS??)
+
+Add Element to 2d vector:
+
+1) https://stackoverflow.com/questions/27241177/inserting-elements-into-2d-vector
+
+2) https://stackoverflow.com/questions/2624232/how-to-change-a-particular-element-of-a-c-stl-vector
