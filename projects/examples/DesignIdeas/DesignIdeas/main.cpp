@@ -3,6 +3,7 @@
 #include "curspriv.h"
 #include "UiComponents/Label.hpp"
 #include "UiComponents/UiComponent.hpp"
+#include "UiComponents/TextBox.hpp"
 #include <string>
 #include <sstream>
 #include <vector>
@@ -34,6 +35,9 @@ int main(void)
 
 	cbreak();
 
+	wclear(main_window);
+	wrefresh(main_window);
+
 	//turn on keypad input
 	keypad(main_window, TRUE);
 
@@ -44,24 +48,32 @@ int main(void)
 
 	//pause for user input
 	bool keep_going = true;
-	vector<CursesUi::UiComponent> components{};
-	components.push_back(CursesUi::Label{"Hello, World"});
+	vector<CursesUi::UiComponent*> components{};
+	Interactable* active_component = nullptr;
+	components.push_back(
+		new CursesUi::Label{main_window, 1, 7, 0, 0, "Label 1"}
+	);
+	components.push_back(
+		new CursesUi::Label{ main_window, 0, 5, "Label 2" }
+	);
+	components.push_back(
+		new CursesUi::TextBox{ main_window, 40, 10, 2, 0 }
+	);
+	active_component = dynamic_cast<Interactable*>(components[2]);
 	while (keep_going == true)
 	{
-		//clear window
-		wclear(main_window);
 
 		//render components
 		for (auto& component : components)
 		{
 			//TODO: render
-			mvaddch(component.getY(), component.getX(), 'A');
+			if (component->needsRefresh() == true)
+			{
+				component->render();
+				component->refresh();
+			}
 		}
-
-		ostringstream temp_str{};
-		temp_str << "width: " << num_cols << " height: " << num_rows;
-		draw_centered(main_window, num_rows, num_cols, temp_str.str().c_str());
-		refresh();
+		
 		int input = wgetch(main_window);
 
 		//Curses documentation says to use KEY_RESIZE, but you can also use
@@ -79,7 +91,34 @@ int main(void)
 			resize_term(0, 0);
 			getmaxyx(main_window, num_rows, num_cols);
 		}
+		
+		if (active_component != nullptr)
+		{
+			active_component->handleKeyboardInput(input);
+		}
 	}
+
+	//end of program, grab screen state
+	vector<vector<int>> screen_data{};
+	for (int i = 0; i < num_rows; i++)
+	{
+		screen_data.push_back(vector<int>{});
+		screen_data[i].resize(num_cols);
+	}
+
+	//grab all content from my UI components
+	for (auto component : components)
+	{
+		for (int i = 0; i < component->getHeight(); i++)
+		{
+			for (int j = 0; j < component->getWidth(); j++)
+			{
+				screen_data[component->getY() + i][component->getX() + j] 
+					= component->getCharAtLocation(i, j);
+			}
+		}
+	}
+
 	//end curses mode
 	endwin();
 }

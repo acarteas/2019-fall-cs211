@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\UiComponents">
-      <UniqueIdentifier>{eebcffc9-a0fb-441a-aefa-342b014284b7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,39 +20,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="curses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curspriv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="panel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UiComponents\UiComponent.hpp">
-      <Filter>Header Files\UiComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="UiComponents\Label.hpp">
-      <Filter>Header Files\UiComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="UiComponents\TextBox.hpp">
-      <Filter>Header Files\UiComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="UiComponents\Interactable.hpp">
-      <Filter>Header Files\UiComponents</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="pdcurses.dll">
+    <None Include="readme.md">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="pdcurses.exp">
+    <None Include="data.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="pdcurses.lib">
+    <Text Include="FirstNames.txt">
       <Filter>Resource Files</Filter>
-    </Library>
+    </Text>
+    <Text Include="LastNames.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
