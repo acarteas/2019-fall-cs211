@@ -162,37 +162,34 @@ int main(int argc, char* argv[])
 		
 		if (main_window != nullptr)
 		{
-			if (input == KEY_RESIZE)
+			switch (input)
 			{
-				cbreak();
+			case KEY_RESIZE:
+				cbreak;
 				resize_term(0, 0);
-			}
-			else if (input == KEY_UP)
-			{
+				break;
+			case KEY_UP:
 				y--;
 				wmove(main_window, y, x);
-			}
-			else if (input == KEY_DOWN)
-			{
+				break;
+			case KEY_DOWN:
 				y++;
 				wmove(main_window, y, x);
-			}
-			else if (input == KEY_LEFT)
-			{
+				break;
+			case KEY_LEFT:
 				x--;
 				wmove(main_window, y, x);
-			}
-			else if (input == KEY_RIGHT)
-			{
+				break;
+			case KEY_RIGHT:
 				x++;
 				wmove(main_window, y, x);
-			}
-			//The backspace key is not working at the moment
-			else if (input == 127)
-			{
+				break;
+			case 127: case KEY_DC:
 				delch();
-				x -= 1;
-				if (x < 2)
+				x--;
+				out_file << KEY_DC;
+
+				if (x = 0)
 				{
 					x = num_cols / 2;
 					y--;
@@ -201,30 +198,18 @@ int main(int argc, char* argv[])
 				{
 					y = 2;
 				}
-
-			}
-			else if (input == KEY_DC)
-			{
-				delch();
-				x -= 1;
-				waddch(main_window,' ');
-				x -= 1;
-			}
-
-			else if (input == KEY_ENTER)
-			{
+				break;
+			case KEY_ENTER:
 				y++;
 				x = 0;
-			}
-			else
-			{
+				break;
+			default:
 				waddch(main_window, input);
 				x++;
 				out_file << (char)input;
+				break;
 			}
-	
-		}
-		
+		}	
 		wrefresh(main_window);
 	}
 	out_file.close();

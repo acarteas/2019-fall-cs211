@@ -1,2 +1,1 @@
-This is my file  
-This is what I want to add to my file.
+This is my file 
