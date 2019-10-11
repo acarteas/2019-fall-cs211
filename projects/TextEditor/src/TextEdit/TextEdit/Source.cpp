@@ -21,6 +21,7 @@ int num_cols = 0;
 int num_rows = 0;
 int y, x;
 WINDOW* main_window = nullptr;
+WINDOW* character_window = nullptr;
 
 void check_cursor(int _y, int _x)
 {
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
 {
 	//Initialize our window
 	main_window = initscr();
+	character_window = initscr();
 
 	//resize our window
 	resize_term(5000, 5000);
@@ -136,12 +138,18 @@ int main(int argc, char* argv[])
 			char letter;
 			input >> letter;
 			in_file.push_back(letter);
-			mvaddch(y, x, letter);
-			x++;
+			//mvaddch(y, x, letter);
+			//x++;
 		}
 			wrefresh(main_window);
 	}
 	input.close();
+
+	for (int i = 0; i < in_file.size() - 1; i++)
+	{
+		mvaddch(y, x, in_file[i]);
+		x++;
+	}
 
 	ofstream out_file;
 	out_file.open("sample.txt");
@@ -164,6 +172,8 @@ int main(int argc, char* argv[])
 		{
 			switch (input)
 			{
+			case KEY_MOUSE:
+				break;
 			case KEY_RESIZE:
 				cbreak;
 				resize_term(0, 0);
@@ -184,17 +194,11 @@ int main(int argc, char* argv[])
 				x++;
 				wmove(main_window, y, x);
 				break;
-			case 127: case KEY_DC:
-				delch();
+			case 127: case KEY_DC: case KEY_BACKSPACE:
 				x--;
-				out_file << KEY_DC;
-
-				if (x = 0)
-				{
-					x = num_cols / 2;
-					y--;
-				}
-				else if (y < 2)
+				mvwdelch(main_window, y,x);
+				out_file << delch();
+				 if (y < 2)
 				{
 					y = 2;
 				}
