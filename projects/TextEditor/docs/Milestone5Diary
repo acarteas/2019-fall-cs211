@@ -1,0 +1,6 @@
+For this milestone I want to be able to read the data provided to us in a trie and when the user presses shift+space while typing a new
+window will pop up next to the word they are typing and autocomplete the word with the correct word(they will decide) and press enter. 
+If I get done before the due date I will start to work on the scrolling.
+
+I will first work on trying to get a seperate screen when shift+space is pressed then I will do more research on tries since I do not
+really know how they fully work yet.
