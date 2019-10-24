@@ -1,0 +1,14 @@
+For this milestone I want to be able to read the data provided to us in a trie and when the user presses shift+space while typing a new
+window will pop up next to the word they are typing and autocomplete the word with the correct word(they will decide) and press enter. 
+If I get done before the due date I will start to work on the scrolling.
+
+I will first work on trying to get a seperate screen when shift+space is pressed then I will do more research on tries since I do not
+really know how they fully work yet.
+
+
+I was able to get the window to be output but I am using alt+0 key to output the window. Now I will do some research on tries so I that
+I can read the data from the txt file into it.
+
+I am have been trying to read the text file into a string of vectors so I can then insert the data into a trie but 
+for some reason I keep getting the error message I put incase the file did not open correctly. So I am trying to deal
+with that problem at the moment
