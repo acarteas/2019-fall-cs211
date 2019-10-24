@@ -9,3 +9,6 @@ really know how they fully work yet.
 I was able to get the window to be output but I am using alt+0 key to output the window. Now I will do some research on tries so I that
 I can read the data from the txt file into it.
 
+I am have been trying to read the text file into a string of vectors so I can then insert the data into a trie but 
+for some reason I keep getting the error message I put incase the file did not open correctly. So I am trying to deal
+with that problem at the moment
