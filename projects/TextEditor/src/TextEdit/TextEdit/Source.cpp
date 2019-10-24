@@ -66,9 +66,9 @@ int main(int argc, char* argv[])
 	getmaxyx(main_window, num_rows, num_cols);
 	resize_term(num_rows - 1, num_cols - 1);
 	getmaxyx(main_window, num_rows, num_cols);
-	
 
-	
+
+
 
 	//Turn keyboard echo
 	noecho();
@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 
 	//Making the border for the window
 	for (int i = 0; i < num_cols; i++)
-	{	
+	{
 		//top row
 		mvaddch(1, i, ACS_BSBS);
 		//bottom row
@@ -112,18 +112,18 @@ int main(int argc, char* argv[])
 	cbreak();
 	getyx(main_window, y, x);
 
-	
 
-	
+
+
 	//creating an ifstream with the file name sample.txt
 	ifstream input("sample.txt");
-	
+
 	//Does not skip whitespace or empty space
 	input >> noskipws;
 
 	//creating a vector of chars to take in the date from the file
 	vector<char> in_file{};
-	
+
 	// Checks if file name is valid
 	if (input.is_open() == false) {
 		mvaddstr(y, x, "Invalid file name, could not open\n");
@@ -132,24 +132,48 @@ int main(int argc, char* argv[])
 	}
 
 	// Reads file to a vector
-	if (input.is_open() == true) {
+	if (input.is_open() == true)
+	{
 
-		while (input.good() == true) {
+		while (input.good() == true)
+		{
 			char letter;
 			input >> letter;
 			in_file.push_back(letter);
-			//mvaddch(y, x, letter);
-			//x++;
+			mvaddch(y, x, letter);
+			x++;
 		}
-			wrefresh(main_window);
+		wrefresh(main_window);
 	}
+	//closing the file after I am done reading it
 	input.close();
 
-	for (int i = 0; i < in_file.size() - 1; i++)
+
+	//opening the keywords.txt file to read it into a vector of strings
+	input.open("keywords.txt");
+
+	//Checking to see if the file opened correctly
+	if (input.is_open() == false)
 	{
-		mvaddch(y, x, in_file[i]);
-		x++;
+		mvaddstr(y, x, " Unable to open the file!");
+		wmove(main_window, y, x);
+		wrefresh(main_window);
 	}
+
+	//creating a vector of strings to store data from my file
+	vector <string> strVec;
+
+	if (input.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			input >> word;
+			strVec.push_back(word);
+		}
+	}
+	//Closing the file after im done reading it
+	input.close();
 
 	ofstream out_file;
 	out_file.open("sample.txt");
@@ -195,9 +219,12 @@ int main(int argc, char* argv[])
 				wmove(main_window, y, x);
 				break;
 			case 127: case KEY_DC: case KEY_BACKSPACE:
-				x--;
-				mvwdelch(main_window, y,x);
-				out_file << delch();
+
+				if (x = 0)
+					y--;
+				mvaddch(x, y, '\b');
+				wmove(main_window, y, x);
+				out_file << '\b' << ' ' << '\b';
 				 if (y < 2)
 				{
 					y = 2;
@@ -206,6 +233,12 @@ int main(int argc, char* argv[])
 			case KEY_ENTER:
 				y++;
 				x = 0;
+				break;
+			case ALT_0:
+				character_window = newwin(10, 15, y, x+1);
+				refresh();
+				box(character_window, 0, 0);
+				wrefresh(character_window);
 				break;
 			default:
 				waddch(main_window, input);
