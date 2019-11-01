@@ -130,6 +130,8 @@
   <ItemGroup>
     <ClInclude Include="curses.h" />
     <ClInclude Include="curspriv.h" />
+    <ClInclude Include="Trie.h" />
+    <ClInclude Include="TrieNode.h" />
     <ClInclude Include="panel.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +141,7 @@
     <Library Include="pdcurses.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\..\..\..\..\keywords.txt" />
+    <Text Include="keywords.txt" />
     <Text Include="sample.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
