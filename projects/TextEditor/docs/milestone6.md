@@ -15,8 +15,8 @@ Using the algorithm above on the string "berries apples berries apples pears app
 
 1.	The frequencies of the words are berries: 2, apples: 3, pears: 1
 2.	The removal sequence from the heap would thus be: apples, berries, pears
-3.	The "binary" string assigned to each word would therefore be apples: "0", berries: "1", pears: "01".
-4.	The final compressed string would therefore be "1 0 1 0 01 0" (12 chars) for a compression ratio of 71%.
+3.	The "binary" string assigned to each word would therefore be apples: "0", berries: "1", pears: "00".
+4.	The final compressed string would therefore be "1 0 1 0 00 0" (12 chars) for a compression ratio of 71%.
 
 ## Decompression Algorithm (bonus points)
 For bonus points, you can try implementing the decompression algorithm, which is merely the inverse of the compression algorithm:
