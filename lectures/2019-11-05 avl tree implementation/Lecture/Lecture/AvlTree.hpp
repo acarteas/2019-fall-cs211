@@ -17,11 +17,11 @@ class AvlTree : public BinarySearchTree<T>
 {
 protected:
 	//will return the new root of the subtree
-	virtual BinaryNode<T>* rotateLeft(BinaryNode<T>* original_root)
+	virtual AvlNode<T>* rotateLeft(BinaryNode<T>* original_root)
 	{
 		if (original_root == nullptr)
 		{
-			return original_root;
+			return nullptr;
 		}
 
 		AvlNode<T>* new_root = dynamic_cast<AvlNode<T>*>(original_root->right);
@@ -37,11 +37,11 @@ protected:
 	}
 
 	//will return the new root of the subtree
-	virtual BinaryNode<T>* rotateRight(BinaryNode<T>* original_root)
+	virtual AvlNode<T>* rotateRight(BinaryNode<T>* original_root)
 	{
 		if (original_root == nullptr)
 		{
-			return original_root;
+			return nullptr;
 		}
 
 		AvlNode<T>* new_root = dynamic_cast<AvlNode<T>*>(original_root->left);
@@ -55,6 +55,10 @@ protected:
 		setHeight(original_root);
 		return setHeight(new_root);
 	}
+	int getBalanceFactor(BinaryNode<T>* node)
+	{
+		return getBalanceFactor(dynamic_cast<AvlNode<T>*>(node));
+	}
 
 	int getBalanceFactor(AvlNode<T>* node)
 	{
@@ -67,6 +71,11 @@ protected:
 		int left_height = (left == nullptr) ? -1 : left->height;
 		int right_height = (right == nullptr) ? -1 : right->height;
 		return right_height - left_height;
+	}
+
+	virtual AvlNode<T>* setHeight(BinaryNode<T>* node)
+	{
+		return setHeight(dynamic_cast<AvlNode<T>*>(node));
 	}
 
 	virtual AvlNode<T>* setHeight(AvlNode<T>* node)

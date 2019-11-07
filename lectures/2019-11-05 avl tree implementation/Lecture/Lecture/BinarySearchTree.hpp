@@ -12,6 +12,8 @@ public:
 	T value;
 	BinaryNode<T>* left = nullptr;
 	BinaryNode<T>* right = nullptr;
+
+	virtual ~BinaryNode() {}
 };
 
 template<typename T>
