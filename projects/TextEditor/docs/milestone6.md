@@ -2,9 +2,9 @@
 It is common for programs to support saving and opening binary files (e.g. DOC, PDF, etc.).  In this milestone, you will use hash tables and priority queues to create a custom binary files.  The algorithm employed by this milestone is inspired by Huffman Coding Trees, which the book covers in Section 5.4.  While it is not a requirement for you to read that section, you may get more out of the milestone if you do read its contents.
 
 ## Binary Format
-As mentioned previously, our binary format is based on Huffman Coding Trees, which is frequently used to compress files.  Indeed, Huffman Coding Trees are used to create ZIP files.  Huffman Coding Trees work by replacing common strings with shorter strings, thereby saving space.  Typically, this shorter sequence is represented using a binary number.  Thus, the most common string in a file would receive the designation "0", the 2nd most popular "1", 3rd "10", 4th "11", 5th "001" and so on.  Here's how to perform it on this milestone:
+As mentioned previously, our binary format is based on Huffman Coding Trees, which is frequently used to compress files.  Indeed, Huffman Coding Trees are used to create ZIP files.  Huffman Coding Trees work by replacing common strings with shorter strings, thereby saving space.  Typically, this shorter sequence is represented using a binary number.  Thus, the most common string in a file would receive the designation "0", the 2nd most popular "10", 3rd "11", 4th "100", 5th "101" and so on (*HINT* to get these numbers, try applying code that converts decimal to binary.  Even better, write your own!).  Here's how to perform it on this milestone:
 
-1.	Record the frequency of each word in a your editor.  Ignore empty lines and spaces.
+1.	Record the frequency of each word in a your editor.  Ignore empty lines and spaces.  *OPTIONAL:* Rather than doing a word frequency distribution, do a character frequency distribution instead.
 2.	Use the frequency recorded in step #1 to build a Max-Heap.  
 3.	Removing items from the heap in order of importance, assign each word a unique "binary" string value.  
 4.	Write to the output file the "binary" representation of the file.
