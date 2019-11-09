@@ -143,6 +143,8 @@
   <ItemGroup>
     <Text Include="keywords.txt" />
     <Text Include="sample.txt" />
+    <Text Include="words2.frequency.txt" />
+    <Text Include="words2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,11 +13,13 @@
 #include <algorithm>
 #include <stdio.h>
 #include <cmath>
+#include <map>
 #include "TrieNode.h"
 #include "Trie.h"
 
 using namespace std;
 
+typedef map<string, int> strInMap;
 int num_cols = 0;
 int num_rows = 0;
 int y, x;
@@ -32,6 +34,29 @@ void check_cursor(int _y, int _x)
 		x = 2;
 	else if (y <= 2)
 		y = 2;
+}
+
+void countWords(istream& in, strInMap& words)
+{
+	string s;
+	while (in >> s)
+	{
+		words[s]++;
+	}
+}
+
+int decimaltoBinary(int num)
+{
+	int binary = 0;
+	int i = 1;
+
+	while (num > 0)
+	{
+		binary += (num % 2) * i;
+		num = num / 2;
+		i *= 10;
+	}
+	return binary;
 }
 
 void set_boarder()
@@ -54,7 +79,6 @@ int main(int argc, char* argv[])
 {
 	//Initialize our window
 	main_window = initscr();
-	character_window = initscr();
 
 	//resize our window
 	resize_term(5000, 5000);
@@ -142,7 +166,6 @@ int main(int argc, char* argv[])
 	//closing the file after I am done reading it
 	input.close();
 
-
 	//opening the keywords.txt file to read it into a vector of strings
 	input.open("keywords.txt");
 
@@ -172,6 +195,50 @@ int main(int argc, char* argv[])
 	//Closing the file after im done reading it
 	input.close();
 
+	//opening the keywords.txt file to read it into a vector of strings
+	ifstream i;
+	i.open("words2.txt");
+
+	strInMap w;
+	countWords(i, w);
+	//Checking to see if the file opened correctly
+	if (i.is_open() == false)
+	{
+		wmove(main_window, y, x);
+		mvaddstr(y, x, "Unable to open the file!");
+		x += 24;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	ofstream o;
+	o.open("words2.frequency.txt");
+	for (strInMap::iterator p = w.begin(); p != w.end(); p++)
+	{
+		o << p->first << ": " << p->second << '\n';
+	}
+	
+	int frequencyArray[];
+	for (strInMap::iterator p = w.begin(); p != w.end; p++)
+	{
+		int i = 0;
+		frequencyArray[i] = p->second;
+		i++;
+	}
+
+
+	vector<string> tempstr;
+	//Reading the keywords file and saving it to a vector of strings
+	if (i.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			getline(input, word);
+			tempstr.push_back(word);
+		}
+	}
+	input.close();
+
 	//creating a trie
 	Trie myTrie;
 	
@@ -191,22 +258,28 @@ int main(int argc, char* argv[])
 	}
 	
 
-	int highlight = 1, choice;
-	string choices[3] = { "abs", "absolute", "absolutely" };
+	int highlight = 1;
+	vector<string> choices{};
 	//Setting up the special keys.
 	keypad(stdscr, TRUE);
 	mousemask(ALL_MOUSE_EVENTS, NULL);
 	scrollok(main_window, TRUE);
-
+	
 	while (1)
 	{
 
 		int input = wgetch(main_window);
+		string str;
 		
 		if (main_window != nullptr)
 		{
 			switch (input)
 			{
+			case ' ':
+				str = str.empty();
+				mvaddch(y, x, ' ');
+				x++;
+				out_file << ' ';
 			case KEY_MOUSE:
 				break;
 			case KEY_RESIZE:
@@ -234,10 +307,12 @@ int main(int argc, char* argv[])
 					y--;
 				delch();
 				mvaddch(y, x, '\b');
+				mvwdelch(main_window, y, x);
+				wrefresh(main_window);
 				//out_file.tellp();
 				//out_file.seekp(-1);
 				//out_file.write("", 1);
-				 if (y < 2)
+				if (y < 2)
 				{
 					y = 2;
 				}
@@ -249,43 +324,57 @@ int main(int argc, char* argv[])
 			case KEY_EXIT: case 27:
 				exit(1);
 			case ALT_0:
-				character_window = newwin(10, 15, y+1, x+1);
-				refresh();
+			
+				mvaddstr(y, x,str.c_str());
+				/*choices = myTrie.search(str);
+				character_window = initscr();
+				character_window = newwin(choices.size(), 15, y + 1, x + 1);
+				wrefresh(character_window);
 				box(character_window, 0, 0);
 				_y = 1;
 				_x = 1;
-				
-				wmove(character_window, _y, _x);
-				waddstr(character_window, choices[1].c_str());
-				_y++;
-				wmove(character_window, _y, _x);
-				waddstr(character_window, choices[2].c_str());
-				_y = 1;
-				for (int i = 1; i < 4; i++)
-				{
-					curs_set(FALSE);
-					keypad(character_window, TRUE);
-					if (i == highlight)
-					{
-						wattron(character_window, A_REVERSE);
-						mvwprintw(character_window, _y, _x, choices[i].c_str());
-						wattroff(character_window, A_REVERSE);
-					}
-					input = wgetch(character_window);
-					
 
-					
+				/*wmove(character_window, _y, _x);
+				for (int i = 0; i < choices.size(); i++)
+				{
+					mvwprintw(character_window, _y, _x, choices[i].c_str());
+					_y++;
 				}
-				wrefresh(character_window);
-				break;
+				
+					for (int i = 1; i < choices.size(); i++)
+					{
+						curs_set(FALSE);
+						keypad(character_window, TRUE);
+						if (_y == i)
+						{
+							wattron(character_window, A_REVERSE);
+							mvwprintw(character_window, _y, _x, choices[i].c_str());
+							wattroff(character_window, A_REVERSE);
+						}
+						choice = wgetch(character_window);
+						switch (choice)
+						{
+						case KEY_UP:
+							_y--;
+							break;
+						case KEY_DOWN:
+							_y++;
+							break;
+						case KEY_ENTER:
+							delwin(character_window);
+						}
+					}*/
+
+	
 			default:
 				waddch(main_window, input);
 				x++;
 				out_file << (char)input;
+				str = str + (char)input;
 				break;
-			}
-		}	
-		wrefresh(main_window);
+				}
+			wrefresh(main_window);
+		}
 	}
 	out_file.close();
 

@@ -53,5 +53,11 @@
     <Text Include="keywords.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="words2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="words2.frequency.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

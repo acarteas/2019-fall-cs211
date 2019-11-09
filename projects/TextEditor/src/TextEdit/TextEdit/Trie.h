@@ -4,6 +4,7 @@
 #include "TrieNode.h"
 #include <string>
 #include <cctype>
+#include <vector>
 using namespace std;
 
 class Trie
@@ -40,18 +41,20 @@ public:
 		current->setChild('$', node);
 	}
 
+
 	vector<string> search(const string& word)
 	{
-		vector<string> matches;
+		vector<string> matches{};
 		TrieNode* temp = _root;
-		for (int i = 0; i < word.length(); i++)
-		{
-			char ch = word.at(i);
-			if(!temp->getChild(word.at(i)))
-				return matches;
-			temp = temp->getChild(word.at(i));
+		if (temp != nullptr) {
+			matches = search(word);
 		}
-		
+
+		//strip the $ off of every word
+		for (int i = 0; i < matches.size(); i++) {
+			string newString = matches[i].substr(0, matches[i].length() - 1);
+			matches[i] = newString;
+		}
 		return matches;
 	}
 
