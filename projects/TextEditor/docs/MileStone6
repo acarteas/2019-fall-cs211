@@ -1,0 +1,9 @@
+I always forget to add my thoughts after working on this project, but for this milestone I will want
+to read a file and output the frequencies from that file to another file. I will then use the frequency
+to make a max heap for the binary conversion. I will then use a decimal to binary equation to convert
+the data from the max heap to a binary representation then output that into another file.
+
+I have already created the decimal to binary equation and have gotten the frequency of a file. I am now
+working on creating a max heap for the data and because I don't really know much about max heaps I am
+doing some research. Once I feel confortable with it I will create the max heap and convert them into
+binary to then output to a file.
