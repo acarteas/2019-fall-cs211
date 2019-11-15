@@ -1,5 +1,29 @@
 # Milestone 7
-For our final milestone, you will allow users to sort the contents of their text editor contents.  The user should be able to select between the insertion, selection, bubble, and quick sort algorithms.  
+For our final milestone, you have two options:
+
+# Fix issues in someone else's repository
+For this option, you will fix logged issues in another CS 211 student's Text Editor repository.  This is a great option if you're interested in collaborative software development.  Unfortunately, issues range greatly in the level of time and complexity required to solve the problem.  Therefore, I cannot simply say "Address 2 issues to receive full credit."  Rather, you will need to find issues from one or more repositories below that you would like to fix.  If, in browsing a repository you notice a bug, feel free to create a new issue to work on.  Once you have found things to work on, check in with me to ensure that the issues you have selected are of an appropriate scope for this milestone.  
+
+Potential repositories:
+* https://github.com/abbottjord94/CS211-TextEditor
+* https://github.com/rja45/CS211-TextEditor
+* https://github.com/gmb9/CS211-TextEditor
+* https://github.com/bac18/CS211-TextEditor
+* https://github.com/fc410/2019-fall-cs211
+* https://github.com/j-feigner/CS211-TextEditor
+* https://github.com/s-flores/CS211-MyTextEditor
+* https://github.com/mdn117/CS211-TextEditor
+* https://github.com/peterdanieloliver/CS211-TextEditor
+* https://github.com/JaDePat/CS211-TextEditor
+* https://github.com/jmp192/CS211-TextEditors
+* https://github.com/Lizzay01/TextEditor-CS211
+* https://github.com/amt954/CS211-TextEditor
+* https://github.com/itravers/CS211-TextEditor
+
+
+
+# Sorting
+For this option, you will allow users to sort the contents of their text editor contents.  The user should be able to select between the insertion, selection, bubble, and quick sort algorithms.  
 
 ## Example
 Assume your text editor had the following contents:
