@@ -28,52 +28,10 @@ int _y, _x;
 WINDOW* main_window = nullptr;
 WINDOW* character_window = nullptr;
 
-void check_cursor(int _y, int _x)
-{
-	if (x <= 2)
-		x = 2;
-	else if (y <= 2)
-		y = 2;
-}
-
-void countWords(istream& in, strInMap& words)
-{
-	string s;
-	while (in >> s)
-	{
-		words[s]++;
-	}
-}
-
-int decimaltoBinary(int num)
-{
-	int binary = 0;
-	int i = 1;
-
-	while (num > 0)
-	{
-		binary += (num % 2) * i;
-		num = num / 2;
-		i *= 10;
-	}
-	return binary;
-}
-
-void set_boarder()
-{
-	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_RED);
-	attron(COLOR_PAIR(1));
-	//printw("");
-
-	mvaddstr(0, 0, "File");
-	mvaddstr(0, 5, "Edit");
-	mvaddstr(0, 10, "Format");
-	mvaddstr(0, 17, "View");
-	mvaddstr(0, 22, "Help");
-	attroff(COLOR_PAIR(1));
-}
-
+void check_cursor(int _y, int _x);
+void countWords(istream& in, strInMap& words);
+int decimaltoBinary(int num);
+void set_boarder();
 
 int main(int argc, char* argv[])
 {
@@ -86,9 +44,6 @@ int main(int argc, char* argv[])
 	resize_term(num_rows - 1, num_cols - 1);
 	getmaxyx(main_window, num_rows, num_cols);
 
-
-
-
 	//Turn keyboard echo
 	noecho();
 
@@ -98,28 +53,8 @@ int main(int argc, char* argv[])
 	//hide the cursor
 	//curs_set(FALSE);
 
-
-	//Main program logic goes here
-
-	//Making the border for the window
-	for (int i = 0; i < num_cols; i++)
-	{
-		//top row
-		mvaddch(1, i, ACS_BSBS);
-		//bottom row
-		//mvaddch(num_rows - 2, i, ACS_BSBS);
-	}
-	//for (int i = 0; i < num_rows; i++)
-	//{
-		//left column
-		//mvaddch(i, 1, ACS_VLINE); 
-		//right column
-//mvaddch(i,num_cols - 2 , ACS_VLINE);
-	//}
-
 	//Setting up the boder names and giving it some color
 	set_boarder();
-
 
 	//Moving the cursor under the file bar to get ready for typing
 	move(2, 0);
@@ -131,9 +66,6 @@ int main(int argc, char* argv[])
 	cbreak();
 	getyx(main_window, y, x);
 
-
-
-
 	//creating an ifstream with the file name sample.txt
 	ifstream input("sample.txt");
 
@@ -141,7 +73,7 @@ int main(int argc, char* argv[])
 	input >> noskipws;
 
 	//creating a vector of chars to take in the date from the file
-	vector<char> in_file{};
+	vector<char> fileVec{};
 
 	// Checks if file name is valid
 	if (input.is_open() == false) {
@@ -159,7 +91,7 @@ int main(int argc, char* argv[])
 		while (input.good() == true)
 		{
 			input >> letter;
-			in_file.push_back(letter);
+			fileVec.push_back(letter);
 		}
 		wrefresh(main_window);
 	}
@@ -173,7 +105,7 @@ int main(int argc, char* argv[])
 	if (input.is_open() == false)
 	{
 		wmove(main_window, y, x);
-		mvaddstr(y, x, "Unable to open the file!");
+		mvaddstr(y, x, "Uable to open the file!");
 		x += 24;
 		wmove(main_window, y, x);
 		wrefresh(main_window);
@@ -196,16 +128,16 @@ int main(int argc, char* argv[])
 	input.close();
 
 	//opening the keywords.txt file to read it into a vector of strings
-	ifstream i;
-	i.open("words2.txt");
+	ifstream infile;
+	infile.open("words2.txt");
 
 	strInMap w;
-	countWords(i, w);
+	countWords(infile, w);
 	//Checking to see if the file opened correctly
-	if (i.is_open() == false)
+	if (infile.is_open() == false)
 	{
 		wmove(main_window, y, x);
-		mvaddstr(y, x, "Unable to open the file!");
+		mvaddstr(y, x, "Unabl to open the file!");
 		x += 24;
 		wmove(main_window, y, x);
 		wrefresh(main_window);
@@ -217,18 +149,19 @@ int main(int argc, char* argv[])
 		o << p->first << ": " << p->second << '\n';
 	}
 	
-	int frequencyArray[];
-	for (strInMap::iterator p = w.begin(); p != w.end; p++)
+	//creating a vector to put all the data into
+	vector<int> tempVec;
+	for (strInMap::iterator p = w.begin(); p != w.end(); p++)
 	{
-		int i = 0;
-		frequencyArray[i] = p->second;
-		i++;
+		tempVec.push_back(p->second);
 	}
 
+	//creating a max heap to convert to binary later
 
+	
 	vector<string> tempstr;
 	//Reading the keywords file and saving it to a vector of strings
-	if (i.is_open() == true)
+	if (infile.is_open() == true)
 	{
 		while (input.good() == true)
 		{
@@ -250,10 +183,10 @@ int main(int argc, char* argv[])
 
 	ofstream out_file;
 	out_file.open("sample.txt");
-	for (int i = 0; i < in_file.size()-1; i++)
+	for (int i = 0; i < fileVec.size()-1; i++)
 	{
-		out_file << in_file[i];
-		mvaddch(y, x, in_file[i]);
+		out_file << fileVec[i];
+		mvaddch(y, x, fileVec[i]);
 		x++;
 	}
 	
@@ -383,4 +316,65 @@ int main(int argc, char* argv[])
 	endwin();
 
 	return 0;
+}
+
+void check_cursor(int _y, int _x)
+{
+	if (x <= 2)
+		x = 2;
+	else if (y <= 2)
+		y = 2;
+}
+
+void countWords(istream& in, strInMap& words)
+{
+	string s;
+	while (in >> s)
+	{
+		words[s]++;
+	}
+}
+
+int decimaltoBinary(int num)
+{
+	int binary = 0;
+	int i = 1;
+
+	while (num > 0)
+	{
+		binary += (num % 2) * i;
+		num = num / 2;
+		i *= 10;
+	}
+	return binary;
+}
+
+void set_boarder()
+{
+	//Making the border for the window
+	for (int i = 0; i < num_cols; i++)
+	{
+		//top row
+		mvaddch(1, i, ACS_BSBS);
+		//bottom row
+		//mvaddch(num_rows - 2, i, ACS_BSBS);
+	}
+	//for (int i = 0; i < num_rows; i++)
+	//{
+		//left column
+		//mvaddch(i, 1, ACS_VLINE); 
+		//right column
+//mvaddch(i,num_cols - 2 , ACS_VLINE);
+	//}
+	start_color();
+	init_pair(1, COLOR_WHITE, COLOR_RED);
+	attron(COLOR_PAIR(1));
+	//printw("");
+
+	mvaddstr(0, 0, "File");
+	mvaddstr(0, 5, "Edit");
+	mvaddstr(0, 10, "Format");
+	mvaddstr(0, 17, "View");
+	mvaddstr(0, 22, "Help");
+	attroff(COLOR_PAIR(1));
 }
