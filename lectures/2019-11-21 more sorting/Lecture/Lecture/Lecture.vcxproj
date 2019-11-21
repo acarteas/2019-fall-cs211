@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />
+    <None Include="results.csv" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="FirstNames.txt" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="BubbleSort.hpp" />
     <ClInclude Include="InsertionSort.hpp" />
+    <ClInclude Include="QuickSort.hpp" />
     <ClInclude Include="SelectionSort.hpp" />
     <ClInclude Include="Sorter.hpp" />
     <ClInclude Include="SortingBenchmark.hpp" />
