@@ -23,7 +23,7 @@
     <None Include="readme.md">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="results.csv">
+    <None Include="results_n2.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -55,6 +55,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QuickSort.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeSort.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

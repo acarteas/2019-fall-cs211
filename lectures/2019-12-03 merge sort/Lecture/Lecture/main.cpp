@@ -24,9 +24,10 @@ int main(int argc, char* argv[])
 	SortingBenchmark bm{};
 
 	unordered_map<string, Sorter<int>*> sorting_algorithms{};
-	sorting_algorithms["Insertion Sort"] = new InsertionSort<int>{};
-	sorting_algorithms["Selection Sort"] = new SelectionSort<int>{};
-	sorting_algorithms["Bubble Sort"] = new BubbleSort<int>{};
+	//sorting_algorithms["Insertion Sort"] = new InsertionSort<int>{};
+	//sorting_algorithms["Selection Sort"] = new SelectionSort<int>{};
+	sorting_algorithms["Merge Sort"] = new MergeSort<int>{};
+	//sorting_algorithms["Quick Sort"] = new QuickSort<int>{};
 	
 	/*
 	auto glambda = [](
@@ -51,7 +52,7 @@ int main(int argc, char* argv[])
 		output_file << algorithm.first << " reversed,";
 	}
 	output_file << endl;
-
+	
 	for (int i = 5000; i < 30000; i += 5000)
 	{
 		cout << i << endl;
