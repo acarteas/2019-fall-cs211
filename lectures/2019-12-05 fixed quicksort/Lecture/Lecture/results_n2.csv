@@ -1,0 +1,7 @@
+ ,Insertion Sort random,Insertion Sort sorted,Insertion Sort reversed,Selection Sort random,Selection Sort sorted,Selection Sort reversed,Bubble Sort random,Bubble Sort sorted,Bubble Sort reversed
+5000,49,0,54,58,31,23,60,0,37
+10000,43,0,79,79,130,64,173,0,181
+15000,92,0,152,92,67,109,482,0,235
+20000,138,0,282,148,157,198,802,0,381
+25000,270,0,469,243,238,239,1583,0,648
+AVERAGE,108.5333333,,,125.0666667,,,305.4666667,,
