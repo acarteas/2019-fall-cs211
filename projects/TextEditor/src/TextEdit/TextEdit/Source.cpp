@@ -16,6 +16,11 @@
 #include <map>
 #include "TrieNode.h"
 #include "Trie.h"
+#include "Sorter.h"
+#include "BubbleSort.h"
+#include "InsertionSort.h"
+#include "SelectionSort.h"
+#include "QuickSort.h"
 
 using namespace std;
 
@@ -27,11 +32,15 @@ int _y, _x;
 
 WINDOW* main_window = nullptr;
 WINDOW* character_window = nullptr;
+WINDOW* my_win = nullptr;
 
 void check_cursor(int _y, int _x);
 void countWords(istream& in, strInMap& words);
 int decimaltoBinary(int num);
 void set_boarder();
+void max_heap(int* a, int m, int n);
+void build_maxheap(int* a, int n);
+
 
 int main(int argc, char* argv[])
 {
@@ -49,6 +58,30 @@ int main(int argc, char* argv[])
 
 	//turn on keypad input
 	keypad(main_window, TRUE);
+
+	ifstream fileR;
+	fileR.open("randomWords.txt");
+	if (fileR.is_open() == false) {
+		mvaddstr(y, x, "Unable to open the file!\n");
+		x++;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	vector<string> words;
+	if (fileR.is_open() == true)
+	{
+		string word;
+
+		while (fileR.good() == true)
+		{
+			fileR >> word;
+			words.push_back(word);
+		}
+		wrefresh(main_window);
+	}
+	
+
+
 
 	//hide the cursor
 	//curs_set(FALSE);
@@ -97,6 +130,140 @@ int main(int argc, char* argv[])
 	}
 	//closing the file after I am done reading it
 	input.close();
+
+	//opening the file randomWords to sort
+	input.open("randomWords.txt");
+
+	//Checking to see if the file opened correctly
+	if (input.is_open() == false)
+	{
+		wmove(main_window, y, x);
+		mvaddstr(y, x, "Uable to open the file!");
+		x += 24;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	//creating a vector to store the data
+	vector<string> words1;
+	if (input.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			getline(input, word);
+			words1.push_back(word);
+		}
+	}
+	input.close();
+	BubbleSort obj1;
+	obj1.sort(words1);
+	ofstream fileW;
+	fileW.open("randomWords.BubbleSort.txt");
+	for (int i = 0; i < words1.size(); i++)
+	{
+		fileW << words1[i] << " ";
+	}
+	fileW.close();
+
+	//opening the file randomWords to sort
+	input.open("randomWords2.txt");
+
+	//Checking to see if the file opened correctly
+	if (input.is_open() == false)
+	{
+		wmove(main_window, y, x);
+		mvaddstr(y, x, "Uable to open the file!");
+		x += 24;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	//creating a vector to store the data
+	vector<string> words2;
+	if (input.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			getline(input, word);
+			words2.push_back(word);
+		}
+	}
+	input.close();
+	SelectionSort obj2;
+	obj2.sort(words2);
+	fileW.open("randomWords.SelectionSort.txt");
+	for (int i = 0; i < words2.size(); i++)
+	{
+		fileW << words2[i] << " ";
+	}
+	fileW.close();
+
+	//opening the file randomWords to sort
+	input.open("randomWords3.txt");
+
+	//Checking to see if the file opened correctly
+	if (input.is_open() == false)
+	{
+		wmove(main_window, y, x);
+		mvaddstr(y, x, "Uable to open the file!");
+		x += 24;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	//creating a vector to store the data
+	vector<string> words3;
+	if (input.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			getline(input, word);
+			words3.push_back(word);
+		}
+	}
+	input.close();
+	InsertionSort obj3;
+	obj3.sort(words3);
+	fileW.open("randomWords.InsertionSort.txt");
+	for (int i = 0; i < words3.size(); i++)
+	{
+		fileW << words3[i] << " ";
+	}
+	fileW.close();
+
+	//opening the file randomWords to sort
+	input.open("randomWords4.txt");
+
+	//Checking to see if the file opened correctly
+	if (input.is_open() == false)
+	{
+		wmove(main_window, y, x);
+		mvaddstr(y, x, "Uable to open the file!");
+		x += 24;
+		wmove(main_window, y, x);
+		wrefresh(main_window);
+	}
+	//creating a vector to store the data
+	vector<string> words4;
+	if (input.is_open() == true)
+	{
+		while (input.good() == true)
+		{
+			string word;
+			getline(input, word);
+			words4.push_back(word);
+		}
+	}
+	input.close();
+	QuickSort obj4;
+	obj4.quicksort(words4,0,words4.size()-1);
+	fileW.open("randomWords.QuickSort.txt");
+	for (int i = 0; i < words4.size(); i++)
+	{
+		fileW << words4[i] << " ";
+	}
+	fileW.close();
+
 
 	//opening the keywords.txt file to read it into a vector of strings
 	input.open("keywords.txt");
@@ -157,7 +324,7 @@ int main(int argc, char* argv[])
 	}
 
 	//creating a max heap to convert to binary later
-
+	 
 	
 	vector<string> tempstr;
 	//Reading the keywords file and saving it to a vector of strings
@@ -198,6 +365,8 @@ int main(int argc, char* argv[])
 	mousemask(ALL_MOUSE_EVENTS, NULL);
 	scrollok(main_window, TRUE);
 	
+	
+
 	while (1)
 	{
 
@@ -256,9 +425,14 @@ int main(int argc, char* argv[])
 				break;
 			case KEY_EXIT: case 27:
 				exit(1);
+				break;
+			case ALT_1:
+				mvaddstr(y, x, "Enter the name of your file you want to sort and type of sort: ");
+				//cin >> file >> sorter;
+
 			case ALT_0:
 			
-				mvaddstr(y, x,str.c_str());
+				//mvaddstr(y, x,str.c_str());
 				/*choices = myTrie.search(str);
 				character_window = initscr();
 				character_window = newwin(choices.size(), 15, y + 1, x + 1);
@@ -377,4 +551,31 @@ void set_boarder()
 	mvaddstr(0, 17, "View");
 	mvaddstr(0, 22, "Help");
 	attroff(COLOR_PAIR(1));
+}
+
+void max_heap(int* a, int m, int n)
+{
+	int j, t;
+	t = a[m];
+	j = 2 * m;
+	while (j <= n) {
+		if (j < n && a[j + 1] > a[j])
+			j = j + 1;
+		if (t > a[j])
+			break;
+		else if (t <= a[j]) {
+			a[j / 2] = a[j];
+			j = 2 * j;
+		}
+	}
+	a[j / 2] = t;
+	return;
+}
+
+void build_maxheap(int* a, int n)
+{
+	int k;
+	for (k = n / 2; k >= 1; k--) {
+		max_heap(a, k, n);
+	}
 }

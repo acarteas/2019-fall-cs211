@@ -35,6 +35,21 @@
     <ClInclude Include="Trie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sorter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertionSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="pdcurses.dll">
@@ -57,6 +72,30 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="words2.frequency.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords.BubbleSort.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords.InsertionSort.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords.SelectionSort.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="randomWords.quickSort.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

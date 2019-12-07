@@ -130,6 +130,11 @@
   <ItemGroup>
     <ClInclude Include="curses.h" />
     <ClInclude Include="curspriv.h" />
+    <ClInclude Include="BubbleSort.h" />
+    <ClInclude Include="QuickSort.h" />
+    <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="Sorter.h" />
     <ClInclude Include="Trie.h" />
     <ClInclude Include="TrieNode.h" />
     <ClInclude Include="panel.h" />
@@ -142,6 +147,14 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="keywords.txt" />
+    <Text Include="randomWords.BubbleSort.txt" />
+    <Text Include="randomWords.InsertionSort.txt" />
+    <Text Include="randomWords.quickSort.txt" />
+    <Text Include="randomWords.SelectionSort.txt" />
+    <Text Include="randomWords.txt" />
+    <Text Include="randomWords2.txt" />
+    <Text Include="randomWords3.txt" />
+    <Text Include="randomWords4.txt" />
     <Text Include="sample.txt" />
     <Text Include="words2.frequency.txt" />
     <Text Include="words2.txt" />
