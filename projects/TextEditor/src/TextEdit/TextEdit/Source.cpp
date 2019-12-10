@@ -27,6 +27,7 @@ using namespace std;
 typedef map<string, int> strInMap;
 int num_cols = 0;
 int num_rows = 0;
+
 int y, x;
 int _y, _x;
 
@@ -255,14 +256,14 @@ int main(int argc, char* argv[])
 		}
 	}
 	input.close();
-	QuickSort obj4;
+	/*QuickSort obj4;
 	obj4.quicksort(words4,0,words4.size()-1);
 	fileW.open("randomWords.QuickSort.txt");
 	for (int i = 0; i < words4.size(); i++)
 	{
 		fileW << words4[i] << " ";
 	}
-	fileW.close();
+	fileW.close();*/
 
 
 	//opening the keywords.txt file to read it into a vector of strings
@@ -340,12 +341,12 @@ int main(int argc, char* argv[])
 	input.close();
 
 	//creating a trie
-	Trie myTrie;
+	class Trie root;
 	
 	//looping and adding every word from the file to my trie
 	for (int i = 0; i < strVec.size(); i++)
 	{
-		myTrie.addWord(strVec[i]);
+		root.addWord(strVec[i]);
 	}
 
 	ofstream out_file;
@@ -365,20 +366,21 @@ int main(int argc, char* argv[])
 	mousemask(ALL_MOUSE_EVENTS, NULL);
 	scrollok(main_window, TRUE);
 	
-	
+	string str;
+	int choice;
 
 	while (1)
 	{
 
 		int input = wgetch(main_window);
-		string str;
+		
 		
 		if (main_window != nullptr)
 		{
 			switch (input)
 			{
 			case ' ':
-				str = str.empty();
+				str = "";
 				mvaddch(y, x, ' ');
 				x++;
 				out_file << ' ';
@@ -433,45 +435,31 @@ int main(int argc, char* argv[])
 			case ALT_0:
 			
 				//mvaddstr(y, x,str.c_str());
-				/*choices = myTrie.search(str);
 				character_window = initscr();
-				character_window = newwin(choices.size(), 15, y + 1, x + 1);
-				wrefresh(character_window);
+				choices = root.search(str);
+				character_window = newwin(choices.size() , 15, y + 1, x);
 				box(character_window, 0, 0);
+				wrefresh(character_window);
+				
 				_y = 1;
 				_x = 1;
 
-				/*wmove(character_window, _y, _x);
-				for (int i = 0; i < choices.size(); i++)
-				{
-					mvwprintw(character_window, _y, _x, choices[i].c_str());
-					_y++;
-				}
-				
-					for (int i = 1; i < choices.size(); i++)
-					{
-						curs_set(FALSE);
-						keypad(character_window, TRUE);
-						if (_y == i)
-						{
-							wattron(character_window, A_REVERSE);
-							mvwprintw(character_window, _y, _x, choices[i].c_str());
-							wattroff(character_window, A_REVERSE);
-						}
-						choice = wgetch(character_window);
-						switch (choice)
-						{
-						case KEY_UP:
-							_y--;
-							break;
-						case KEY_DOWN:
-							_y++;
-							break;
-						case KEY_ENTER:
-							delwin(character_window);
-						}
-					}*/
+				wmove(character_window, _y, _x);
 
+				
+				mvwprintw(character_window, _y,_x, choices[0].c_str());
+				
+				while (1)
+				{
+					for (int i = 0; i < choices.size(); i++)
+					{
+						if (i == highlight)
+							wattron(character_window, A_REVERSE);
+						mvwprintw(character_window, _y, _x, choices[i].c_str());
+						wattroff(character_window, A_REVERSE);
+					}
+				}
+				wrefresh(character_window);
 	
 			default:
 				waddch(main_window, input);
